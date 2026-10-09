@@ -3,7 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Silvana Moda & Cosméticos — Painel de Gestão</title>
+<title>Silvana Moda &amp; Cosméticos — Moda com brilho e atitude</title>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FAVICON
+     Substitua SEU_USUARIO e SEU_REPO pelo caminho real no
+     GitHub Pages (ex: https://silvana.github.io/loja/).
+     ═══════════════════════════════════════════════════════════ -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- Fallback PNG para navegadores que não suportam SVG como favicon -->
+<!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"> -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     SEO BÁSICO
+     ═══════════════════════════════════════════════════════════ -->
+<meta name="description" content="Silvana Moda &amp; Cosméticos — Vestidos, blusas, calças, acessórios e cosméticos selecionados com cuidado. Moda com brilho e atitude para quem gosta de se sentir única.">
+<meta name="author" content="Silvana Moda &amp; Cosméticos">
+<meta name="theme-color" content="#0a0a0b">
+
+<!-- ═══════════════════════════════════════════════════════════
+     OPEN GRAPH (WhatsApp, Facebook, LinkedIn, Telegram…)
+     https://github.com/Carlohippler/SilvanaModa.git/ 
+     URL real da sua GitHub Pages.
+     ═══════════════════════════════════════════════════════════ -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Silvana Moda &amp; Cosméticos">
+<meta property="og:locale"      content="pt_BR">
+<meta property="og:url"         content="https://github.com/Carlohippler/SilvanaModa.git">
+<meta property="og:title"       content="Silvana Moda &amp; Cosméticos — Moda com brilho e atitude">
+<meta property="og:description" content="Vestidos, blusas, calças, acessórios e cosméticos selecionados com cuidado. Peças pensadas para quem gosta de se sentir única — do dia a dia às ocasiões especiais.">
+<meta property="og:image"       content="https://github.com/Carlohippler/SilvanaModa.git/og-image.svg">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"   content="Banner da loja Silvana Moda &amp; Cosméticos — paleta preto e dourado">
+
+<!-- ═══════════════════════════════════════════════════════════
+     TWITTER / X CARD
+     (também usado pelo Instagram ao abrir links externos)
+     ═══════════════════════════════════════════════════════════ -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Silvana Moda &amp; Cosméticos">
+<meta name="twitter:description" content="Peças selecionadas com cuidado — moda com brilho e atitude.">
+<meta name="twitter:image"       content="https://github.com/Carlohippler/SilvanaModa.git/og-image.svg">
+<meta name="twitter:image:alt"   content="Banner Silvana Moda &amp; Cosméticos">
+
+<!-- ═══════════════════════════════════════════════════════════
+     WHATSAPP
+     O WhatsApp lê og:title, og:description e og:image acima.
+     Não há tags exclusivas do WhatsApp — as OG já bastam.
+     ═══════════════════════════════════════════════════════════ -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1091,20 +1140,20 @@ function stopInactivityWatcher(){
 
 if(sb){
   sb.auth.onAuthStateChange((event, session)=>{
-    // Ignora eventos que não sejam encerramento explícito de sessão
-    // enquanto a view é a loja — evita falsos logouts por renovação de token
     if(event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION'){
-      if(session) adminSession = session;
+      // Mantém sessões ativas sem redirecionar
+      if(session && state.view === 'admin') adminSession = session;
       updateAdminSessionLabel();
       return;
     }
-    adminSession = session || null;
-    updateAdminSessionLabel();
-    // Só redireciona para a loja se a sessão foi realmente encerrada
-    // E a pessoa estava no painel (não ao simplesmente visitar a loja)
-    if(event === 'SIGNED_OUT' && state.view === 'admin'){
-      stopInactivityWatcher();
-      showLoja();
+    if(event === 'SIGNED_OUT'){
+      adminSession = null;
+      state.currentCustomer = null;
+      updateAdminSessionLabel();
+      if(state.view === 'admin'){
+        stopInactivityWatcher();
+        showLoja();
+      }
     }
   });
 }
@@ -1152,10 +1201,11 @@ function fromSaleRow(r){
     itens:r.itens||[], total:Number(r.total), status:r.status, parcelas:r.parcelas||[] };
 }
 function toCustomerRow(c){
-  return { id:c.id, nome:c.nome, email:c.email, telefone:c.telefone||'', senha:c.senha };
+  // Sem campo senha — autenticação via Supabase Auth
+  return { id:c.id, nome:c.nome, email:c.email, telefone:c.telefone||'' };
 }
 function fromCustomerRow(r){
-  return { id:r.id, nome:r.nome, email:r.email, telefone:r.telefone, senha:r.senha };
+  return { id:r.id, nome:r.nome, email:r.email, telefone:r.telefone };
 }
 function toSettingsRow(s){
   return { id:'main', store_name:s.storeName, whatsapp:s.whatsapp||'', instagram:s.instagram||'',
@@ -1410,10 +1460,8 @@ async function seedIfEmpty(){
   await db.saveSales(sales);
   await db.saveSettings(defaultSettings());
 
-  // conta de cliente fixa para teste (login: 456 / 456)
-  await db.saveCustomers([
-    {id:uid('c'), nome:'Cliente Demonstração', email:'456', telefone:'', senha:'456'}
-  ]);
+  // Clientes são criados via Supabase Auth — sem senhas salvas aqui.
+  // Para fins de demonstração, a tabela customer_profiles começa vazia.
 
   write(STORAGE_KEYS.seeded, true);
 }
@@ -1655,13 +1703,13 @@ function render(){
 /* ============================================================
    NAVEGAÇÃO ENTRE LOJA (pública) E GESTÃO (restrita)
    ============================================================ */
-function showLoja(){
+async function showLoja(){
   state.view = 'loja';
   stopInactivityWatcher(); // pausa o timer — não desloga, só para de contar
   closeSidebarMobile();
   document.getElementById('storeView').style.display = '';
   document.getElementById('adminView').style.display = 'none';
-  renderStore();
+  await renderStore();
 }
 function showAdmin(){
   state.view = 'admin';
@@ -1715,9 +1763,20 @@ function renderProductCard(p){
     </div>`;
 }
 
-function renderStore(){
-  const sessionId = localStorage.getItem('smc_customer_session');
-  state.currentCustomer = sessionId ? (state.customers.find(c=>c.id===sessionId) || null) : null;
+async function renderStore(){
+  // Obtém sessão de cliente via Supabase Auth
+  state.currentCustomer = null;
+  if(sb){
+    try{
+      const { data } = await sb.auth.getSession();
+      if(data && data.session && !adminSession){
+        // É cliente (não administradora) — busca perfil na tabela customer_profiles
+        const uid_auth = data.session.user.id;
+        const { data: profile } = await sb.from('customer_profiles').select('*').eq('id', uid_auth).maybeSingle();
+        if(profile) state.currentCustomer = { id: uid_auth, nome: profile.nome, email: data.session.user.email, telefone: profile.telefone||'' };
+      }
+    }catch(e){ console.warn('[Auth] falha ao obter sessão de cliente.', e.message||e); }
+  }
 
   const { lojaBusca, lojaCategoria } = state.ui;
   let list = state.products.slice();
@@ -1800,7 +1859,7 @@ function bindStore(){
   if(createBtn) createBtn.addEventListener('click', openCreateAccountModal);
   const chip = document.getElementById('accountChip');
   if(chip) chip.addEventListener('click', ()=>{
-    confirmModal(`Deseja sair da conta de <strong>${escapeHtml(state.currentCustomer.nome)}</strong>?`, logoutCustomer);
+    confirmModal(`Deseja sair da conta de <strong>${escapeHtml(state.currentCustomer.nome)}</strong>?`, ()=>logoutCustomer());
   });
 
   document.querySelectorAll('[data-loja-cat]').forEach(b=>b.addEventListener('click', ()=>{
@@ -1923,7 +1982,7 @@ function openCreateAccountModal(){
         <div class="field span2"><label for="caNome">Nome completo</label><input type="text" id="caNome" placeholder="Seu nome"></div>
         <div class="field span2"><label for="caEmail">E-mail</label><input type="email" id="caEmail" placeholder="seuemail@exemplo.com"></div>
         <div class="field span2"><label for="caTel">Telefone <span class="hint">opcional</span></label><input type="tel" id="caTel" placeholder="(45) 99999-9999"></div>
-        <div class="field"><label for="caSenha">Senha</label><input type="password" id="caSenha" placeholder="Crie uma senha"></div>
+        <div class="field"><label for="caSenha">Senha</label><input type="password" id="caSenha" placeholder="Mínimo 6 caracteres"></div>
         <div class="field"><label for="caSenha2">Confirmar senha</label><input type="password" id="caSenha2" placeholder="Repita a senha"></div>
       </div>
       <div id="caError" style="display:none; font-size:11.5px; color:var(--danger); margin-top:4px;"></div>
@@ -1931,25 +1990,58 @@ function openCreateAccountModal(){
     footHtml:`<button class="btn btn-line" id="caCancel">Cancelar</button><button class="btn btn-gold" id="caSave">Criar conta</button>`,
     onMount:(root)=>{
       root.querySelector('#caCancel').addEventListener('click', closeModal);
-      root.querySelector('#caSave').addEventListener('click', ()=>{
+      const saveBtn = root.querySelector('#caSave');
+      const saveBtnOriginal = saveBtn.innerHTML;
+
+      saveBtn.addEventListener('click', async ()=>{
         const nome = root.querySelector('#caNome').value.trim();
         const email = root.querySelector('#caEmail').value.trim().toLowerCase();
         const tel = root.querySelector('#caTel').value.trim();
         const senha = root.querySelector('#caSenha').value;
         const senha2 = root.querySelector('#caSenha2').value;
-        if(!nome || !email){ toast('Preencha nome e e-mail.', 'danger'); return; }
-        if(state.customers.some(c=>c.email===email)){ toast('Já existe uma conta com este e-mail.', 'danger'); return; }
-        if(!senha || senha.length<4){ toast('A senha deve ter pelo menos 4 caracteres.', 'danger'); return; }
-        if(senha!==senha2){ toast('As senhas não coincidem.', 'danger'); return; }
 
-        const customer = {id:uid('c'), nome, email, telefone:tel, senha};
-        state.customers.push(customer);
-        persistCustomers();
-        localStorage.setItem('smc_customer_session', customer.id);
-        state.currentCustomer = customer;
-        toast(`Conta criada! Bem-vinda, ${nome.split(' ')[0]}.`, 'success');
-        closeModal();
-        renderStore();
+        if(!nome || !email){ toast('Preencha nome e e-mail.', 'danger'); return; }
+        if(!senha || senha.length<6){ toast('A senha deve ter pelo menos 6 caracteres.', 'danger'); return; }
+        if(senha!==senha2){ toast('As senhas não coincidem.', 'danger'); return; }
+        if(!sb){ toast('Serviço indisponível. Tente novamente mais tarde.', 'danger'); return; }
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Criando conta...';
+
+        try{
+          // 1) Cria usuário no Supabase Auth
+          const { data, error } = await sb.auth.signUp({
+            email,
+            password: senha,
+            options: { data: { nome } } // metadata opcional no auth.users
+          });
+
+          if(error) throw error;
+
+          // 2) Insere perfil na tabela customer_profiles vinculado ao auth.uid()
+          if(data && data.user){
+            const { error: profileError } = await sb.from('customer_profiles').insert({
+              id: data.user.id,
+              nome,
+              email,
+              telefone: tel
+            });
+            if(profileError) console.warn('[DB] falha ao salvar perfil do cliente.', profileError.message);
+          }
+
+          toast(`Conta criada! Verifique seu e-mail para confirmar o cadastro, ${nome.split(' ')[0]}.`, 'success');
+          closeModal();
+          // Se e-mail não precisar de confirmação, a sessão já está ativa:
+          renderStore();
+        }catch(e){
+          console.warn('[Auth] falha ao criar conta.', e.message||e);
+          const msg = e.message && e.message.includes('already registered')
+            ? 'Já existe uma conta com este e-mail.'
+            : (e.message || 'Não foi possível criar a conta. Tente novamente.');
+          toast(msg, 'danger');
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = saveBtnOriginal;
+        }
       });
     }
   });
@@ -1994,35 +2086,49 @@ function openLoginCustomerModal(){
         const email = root.querySelector('#liUser').value.trim();
         const senha = root.querySelector('#liSenha').value;
         if(!email || !senha){ toast('Preencha e-mail e senha.', 'danger'); return; }
+        if(!sb){ toast('Serviço indisponível. Tente novamente mais tarde.', 'danger'); return; }
 
         setLoading(true);
 
-        // Tenta autenticar como gestora
-        if(sb){
-          try{
-            const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
-            if(!error && data && data.session){
+        try{
+          const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+
+          if(error) throw error;
+
+          if(data && data.session){
+            // Verifica se é usuário da área de gestão (administradora)
+            // A administradora é identificada pela ausência de registro em customer_profiles
+            // (ou por uma coluna role em auth.users.user_metadata, se preferir).
+            const { data: profile } = await sb.from('customer_profiles').select('id').eq('id', data.session.user.id).maybeSingle();
+
+            if(!profile){
+              // Sem perfil de cliente → é a administradora
               adminSession = data.session;
               updateAdminSessionLabel();
               closeModal();
               toast('Acesso liberado. Bem-vinda à gestão.', 'success');
               showAdmin();
-              return;
+            } else {
+              // Tem perfil de cliente → login de cliente da loja
+              state.currentCustomer = {
+                id: data.session.user.id,
+                nome: profile.nome || data.session.user.email,
+                email: data.session.user.email,
+                telefone: profile.telefone||''
+              };
+              closeModal();
+              toast(`Bem-vinda de volta, ${(state.currentCustomer.nome||'').split(' ')[0]}.`, 'success');
+              renderStore();
             }
-          }catch(e){
-            console.warn('[Auth] falha no login.', e.message||e);
+            return;
           }
-        }
-
-        // Tenta como cliente da loja
-        const chave = email.toLowerCase();
-        const c = state.customers.find(x=> (x.email||'').toLowerCase()===chave && x.senha===senha);
-        if(c){
-          localStorage.setItem('smc_customer_session', c.id);
-          state.currentCustomer = c;
-          toast(`Bem-vinda de volta, ${c.nome.split(' ')[0]}.`, 'success');
-          closeModal();
-          renderStore();
+        }catch(e){
+          console.warn('[Auth] falha no login.', e.message||e);
+          setLoading(false);
+          const msg = (e.message && (e.message.includes('Invalid login') || e.message.includes('invalid_credentials')))
+            ? 'E-mail ou senha incorretos.'
+            : (e.message || 'Não foi possível entrar. Tente novamente.');
+          toast(msg, 'danger');
           return;
         }
 
@@ -2079,9 +2185,12 @@ function openForgotPasswordModal(prefillEmail){
     }
   });
 }
-function logoutCustomer(){
-  localStorage.removeItem('smc_customer_session');
+async function logoutCustomer(){
   state.currentCustomer = null;
+  if(sb){
+    try{ await sb.auth.signOut(); }
+    catch(e){ console.warn('[Auth] falha ao encerrar sessão de cliente.', e.message||e); }
+  }
   toast('Você saiu da sua conta.', 'info');
   renderStore();
 }
@@ -3028,7 +3137,8 @@ function bindConfig(){
       try{
         await db.saveProducts([]);
         await db.saveSales([]);
-        await db.saveCustomers([]);
+        // Perfis de clientes (customer_profiles) são vinculados ao Supabase Auth
+        // e não são apagados por aqui — faça isso direto no painel do Supabase se necessário.
       }catch(e){ /* já tratado dentro de cada db.save*, segue com o reset local */ }
       localStorage.removeItem(STORAGE_KEYS.products);
       localStorage.removeItem(STORAGE_KEYS.sales);
@@ -3062,7 +3172,7 @@ function bindConfig(){
 
   const boot = document.getElementById('bootLoading');
   if(boot) boot.remove();
-  showLoja();
+  await showLoja();
 })();
 
 })();
