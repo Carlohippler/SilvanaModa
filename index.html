@@ -23,16 +23,16 @@
 
 <!-- ═══════════════════════════════════════════════════════════
      OPEN GRAPH (WhatsApp, Facebook, LinkedIn, Telegram…)
-     https://github.com/Carlohippler/SilvanaModa.git/ 
+     Troque https://SEU_USUARIO.github.io/SEU_REPO/ pela
      URL real da sua GitHub Pages.
      ═══════════════════════════════════════════════════════════ -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Silvana Moda &amp; Cosméticos">
 <meta property="og:locale"      content="pt_BR">
-<meta property="og:url"         content="https://github.com/Carlohippler/SilvanaModa.git">
+<meta property="og:url"         content="https://SEU_USUARIO.github.io/SEU_REPO/">
 <meta property="og:title"       content="Silvana Moda &amp; Cosméticos — Moda com brilho e atitude">
 <meta property="og:description" content="Vestidos, blusas, calças, acessórios e cosméticos selecionados com cuidado. Peças pensadas para quem gosta de se sentir única — do dia a dia às ocasiões especiais.">
-<meta property="og:image"       content="https://github.com/Carlohippler/SilvanaModa.git/og-image.svg">
+<meta property="og:image"       content="https://SEU_USUARIO.github.io/SEU_REPO/og-image.svg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt"   content="Banner da loja Silvana Moda &amp; Cosméticos — paleta preto e dourado">
@@ -44,7 +44,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="Silvana Moda &amp; Cosméticos">
 <meta name="twitter:description" content="Peças selecionadas com cuidado — moda com brilho e atitude.">
-<meta name="twitter:image"       content="https://github.com/Carlohippler/SilvanaModa.git/og-image.svg">
+<meta name="twitter:image"       content="https://SEU_USUARIO.github.io/SEU_REPO/og-image.svg">
 <meta name="twitter:image:alt"   content="Banner Silvana Moda &amp; Cosméticos">
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -1705,11 +1705,12 @@ function render(){
    ============================================================ */
 async function showLoja(){
   state.view = 'loja';
-  stopInactivityWatcher(); // pausa o timer — não desloga, só para de contar
+  stopInactivityWatcher();
   closeSidebarMobile();
   document.getElementById('storeView').style.display = '';
   document.getElementById('adminView').style.display = 'none';
-  await renderStore();
+  await resolveCustomerSession(); // resolve sessão UMA VEZ ao abrir a loja
+  renderStore();                  // render síncrono a partir daqui
 }
 function showAdmin(){
   state.view = 'admin';
@@ -1763,20 +1764,30 @@ function renderProductCard(p){
     </div>`;
 }
 
-async function renderStore(){
-  // Obtém sessão de cliente via Supabase Auth
+/* Resolve quem está logado como cliente e guarda em state.currentCustomer.
+   Chamado apenas quando a loja é aberta (showLoja) ou após login/logout —
+   NÃO a cada re-render, para evitar pisca e requisições desnecessárias. */
+async function resolveCustomerSession(){
   state.currentCustomer = null;
-  if(sb){
-    try{
-      const { data } = await sb.auth.getSession();
-      if(data && data.session && !adminSession){
-        // É cliente (não administradora) — busca perfil na tabela customer_profiles
-        const uid_auth = data.session.user.id;
-        const { data: profile } = await sb.from('customer_profiles').select('*').eq('id', uid_auth).maybeSingle();
-        if(profile) state.currentCustomer = { id: uid_auth, nome: profile.nome, email: data.session.user.email, telefone: profile.telefone||'' };
+  if(!sb) return;
+  try{
+    const { data } = await sb.auth.getSession();
+    if(data && data.session && !adminSession){
+      const uid_auth = data.session.user.id;
+      const { data: profile } = await sb.from('customer_profiles').select('*').eq('id', uid_auth).maybeSingle();
+      if(profile){
+        state.currentCustomer = {
+          id: uid_auth,
+          nome: profile.nome,
+          email: data.session.user.email,
+          telefone: profile.telefone||''
+        };
       }
-    }catch(e){ console.warn('[Auth] falha ao obter sessão de cliente.', e.message||e); }
-  }
+    }
+  }catch(e){ console.warn('[Auth] falha ao obter sessão de cliente.', e.message||e); }
+}
+
+function renderStore(){
 
   const { lojaBusca, lojaCategoria } = state.ui;
   let list = state.products.slice();
@@ -3158,12 +3169,22 @@ function bindConfig(){
 (async function init(){
   await loadState();
 
-  // Verifica se já existe uma sessão válida (ex: refresh de página com o painel aberto).
-  // A página sempre abre na loja; o painel só aparece após login pelo formulário "Entrar".
+  // Verifica se existe sessão salva. Só considera adminSession se o usuário
+  // NÃO tiver perfil de cliente — evita que um cliente logado seja tratado
+  // como administradora ao recarregar a página.
   if(sb){
     try{
       const { data } = await sb.auth.getSession();
-      adminSession = data && data.session ? data.session : null;
+      if(data && data.session){
+        const uid_check = data.session.user.id;
+        const { data: profile } = await sb.from('customer_profiles').select('id').eq('id', uid_check).maybeSingle();
+        if(!profile){
+          // Sem perfil de cliente → é a administradora
+          adminSession = data.session;
+        }
+        // Se tiver perfil de cliente, adminSession permanece null;
+        // resolveCustomerSession() dentro de showLoja vai cuidar do currentCustomer.
+      }
     }catch(e){
       console.warn('[Auth] falha ao verificar sessão.', e.message||e);
     }
