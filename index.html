@@ -641,6 +641,7 @@
   .toast.success{border-left-color:var(--success);}
   .toast.danger{border-left-color:var(--danger);}
   .toast.info{border-left-color:var(--gold);}
+  .toast.warn{border-left-color:var(--warn);}
   @keyframes toastIn{from{opacity:0; transform:translateX(14px);} to{opacity:1; transform:translateX(0);}}
   .toast.out{animation:toastOut .2s ease both;}
   @keyframes toastOut{to{opacity:0; transform:translateX(14px);}}
@@ -1060,12 +1061,49 @@ let supabaseOnline = true; // vira false se alguma chamada falhar, só para log/
 /* ---------- Autenticação da área de gestão ---------- */
 let adminSession = null; // sessão atual (null = não autenticada)
 
+/* --- Timeout de inatividade: 30 minutos ---
+   Reseta a cada interação do usuário (clique, teclado, scroll, toque).
+   Quando estourar, faz logout e volta para a loja com aviso. */
+const INACTIVITY_MS = 30 * 60 * 1000; // 30 minutos
+let _inactivityTimer = null;
+
+function resetInactivityTimer(){
+  if(!adminSession) return; // só conta quando há sessão ativa
+  clearTimeout(_inactivityTimer);
+  _inactivityTimer = setTimeout(()=>{
+    if(adminSession && state.view==='admin'){
+      logoutAdmin(true); // true = logout por inatividade
+    }
+  }, INACTIVITY_MS);
+}
+
+function startInactivityWatcher(){
+  ['click','keydown','mousemove','touchstart','scroll'].forEach(ev=>{
+    document.addEventListener(ev, resetInactivityTimer, {passive:true});
+  });
+  resetInactivityTimer();
+}
+
+function stopInactivityWatcher(){
+  clearTimeout(_inactivityTimer);
+  _inactivityTimer = null;
+}
+
 if(sb){
   sb.auth.onAuthStateChange((event, session)=>{
+    // Ignora eventos que não sejam encerramento explícito de sessão
+    // enquanto a view é a loja — evita falsos logouts por renovação de token
+    if(event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION'){
+      if(session) adminSession = session;
+      updateAdminSessionLabel();
+      return;
+    }
     adminSession = session || null;
     updateAdminSessionLabel();
-    // Sessão expirou ou foi encerrada com o painel aberto: volta para a loja
-    if(event==='SIGNED_OUT' && state.view==='admin'){
+    // Só redireciona para a loja se a sessão foi realmente encerrada
+    // E a pessoa estava no painel (não ao simplesmente visitar a loja)
+    if(event === 'SIGNED_OUT' && state.view === 'admin'){
+      stopInactivityWatcher();
       showLoja();
     }
   });
@@ -1619,6 +1657,7 @@ function render(){
    ============================================================ */
 function showLoja(){
   state.view = 'loja';
+  stopInactivityWatcher(); // pausa o timer — não desloga, só para de contar
   closeSidebarMobile();
   document.getElementById('storeView').style.display = '';
   document.getElementById('adminView').style.display = 'none';
@@ -1629,15 +1668,22 @@ function showAdmin(){
   document.getElementById('storeView').style.display = 'none';
   document.getElementById('adminView').style.display = '';
   updateAdminSessionLabel();
+  startInactivityWatcher(); // começa/retoma contagem de inatividade
   render();
 }
-async function logoutAdmin(){
+async function logoutAdmin(porInatividade){
+  stopInactivityWatcher();
   try{
     if(sb) await sb.auth.signOut();
   }catch(e){
     console.warn('[Auth] falha ao encerrar sessão.', e.message||e);
   }
-  toast('Você saiu da área de gestão.', 'info');
+  adminSession = null;
+  if(porInatividade){
+    toast('Sessão encerrada por inatividade. Faça login novamente.', 'warn');
+  } else {
+    toast('Você saiu da área de gestão.', 'info');
+  }
   showLoja();
 }
 
