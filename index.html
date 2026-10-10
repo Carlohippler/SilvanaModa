@@ -5,27 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silvana Moda &amp; Cosméticos — Moda com brilho e atitude</title>
 
-<!-- ═══════════════════════════════════════════════════════════
-     FAVICON
-     Substitua SEU_USUARIO e SEU_REPO pelo caminho real no
-     GitHub Pages (ex: https://silvana.github.io/loja/).
-     ═══════════════════════════════════════════════════════════ -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<!-- Fallback PNG para navegadores que não suportam SVG como favicon -->
-<!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"> -->
 
-<!-- ═══════════════════════════════════════════════════════════
-     SEO BÁSICO
-     ═══════════════════════════════════════════════════════════ -->
 <meta name="description" content="Silvana Moda &amp; Cosméticos — Vestidos, blusas, calças, acessórios e cosméticos selecionados com cuidado. Moda com brilho e atitude para quem gosta de se sentir única.">
 <meta name="author" content="Silvana Moda &amp; Cosméticos">
 <meta name="theme-color" content="#0a0a0b">
 
-<!-- ═══════════════════════════════════════════════════════════
-     OPEN GRAPH (WhatsApp, Facebook, LinkedIn, Telegram…)
-     Troque https://SEU_USUARIO.github.io/SEU_REPO/ pela
-     URL real da sua GitHub Pages.
-     ═══════════════════════════════════════════════════════════ -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Silvana Moda &amp; Cosméticos">
 <meta property="og:locale"      content="pt_BR">
@@ -37,21 +22,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt"   content="Banner da loja Silvana Moda &amp; Cosméticos — paleta preto e dourado">
 
-<!-- ═══════════════════════════════════════════════════════════
-     TWITTER / X CARD
-     (também usado pelo Instagram ao abrir links externos)
-     ═══════════════════════════════════════════════════════════ -->
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="Silvana Moda &amp; Cosméticos">
 <meta name="twitter:description" content="Peças selecionadas com cuidado — moda com brilho e atitude.">
 <meta name="twitter:image"       content="https://SEU_USUARIO.github.io/SEU_REPO/og-image.svg">
 <meta name="twitter:image:alt"   content="Banner Silvana Moda &amp; Cosméticos">
-
-<!-- ═══════════════════════════════════════════════════════════
-     WHATSAPP
-     O WhatsApp lê og:title, og:description e og:image acima.
-     Não há tags exclusivas do WhatsApp — as OG já bastam.
-     ═══════════════════════════════════════════════════════════ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -758,170 +733,264 @@
   }
 
   /* ============================================================
-     LOJA (página pública)
+     LOJA (página pública) — vitrine da boutique
      ============================================================ */
-  .store{min-height:100vh; display:flex; flex-direction:column;}
+  .store{min-height:100vh; display:flex; flex-direction:column; background:var(--bg);}
 
   .store-header{
     position:sticky; top:0; z-index:40;
     display:flex; align-items:center; justify-content:space-between;
-    padding:16px 34px;
-    background:rgba(10,10,11,0.82);
-    backdrop-filter:blur(8px);
+    padding:18px 38px;
+    background:rgba(10,10,11,0.86);
+    backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
     gap:16px;
   }
-  .store-brand{display:flex; align-items:center; gap:12px; cursor:default;}
-  .store-brand .brand-mark{width:38px; height:38px; font-size:16px;}
-  .store-brand .b1{font-family:var(--font-display); font-size:18px;}
-  .store-brand .b2{font-size:9px; letter-spacing:.14em; color:var(--gold-dim); text-transform:uppercase;}
+  .store-brand{display:flex; align-items:baseline; gap:9px; cursor:default;}
+  .store-brand .b1{
+    font-family:var(--font-display); font-size:21px; font-weight:500;
+    letter-spacing:.01em; color:var(--text);
+  }
+  .store-brand .b2{
+    font-size:10.5px; color:var(--text-faint); font-style:italic;
+    font-family:var(--font-display);
+  }
 
-  .store-nav-right{display:flex; align-items:center; gap:10px;}
+  .store-nav-right{display:flex; align-items:center; gap:9px;}
   .store-account-chip{
     display:flex; align-items:center; gap:8px;
     background:var(--surface); border:1px solid var(--border);
-    border-radius:20px; padding:7px 14px 7px 9px;
+    border-radius:20px; padding:6px 14px 6px 6px;
     font-size:12px; color:var(--text-muted); cursor:pointer;
+    transition:border-color .15s ease;
   }
+  .store-account-chip:hover{border-color:var(--gold-dim);}
   .store-account-chip .av{
-    width:22px; height:22px; border-radius:50%;
+    width:24px; height:24px; border-radius:50%;
     background:var(--gold-wash); border:1px solid var(--gold-dim);
-    color:var(--gold-light); font-size:10.5px; font-weight:800;
+    color:var(--gold-light); font-size:11px; font-weight:800;
     display:flex; align-items:center; justify-content:center;
     font-family:var(--font-display);
   }
   .cart-btn{
     position:relative;
-    width:40px; height:40px;
+    width:38px; height:38px;
     border-radius:50%;
-    background:var(--surface);
+    background:transparent;
     border:1px solid var(--border);
-    color:var(--text);
+    color:var(--text-muted);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
   }
   .cart-btn:hover{border-color:var(--gold-dim); color:var(--gold-light);}
-  .cart-btn svg{width:18px; height:18px; stroke:currentColor;}
+  .cart-btn svg{width:17px; height:17px; stroke:currentColor;}
   .cart-count{
-    position:absolute; top:-4px; right:-4px;
-    min-width:17px; height:17px; padding:0 4px;
+    position:absolute; top:-3px; right:-3px;
+    min-width:16px; height:16px; padding:0 4px;
     border-radius:20px;
     background:var(--gold); color:#1a1509;
-    font-size:9.5px; font-weight:800;
+    font-size:9px; font-weight:800;
     display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--bg);
   }
 
+  /* ---------- Hero editorial (sem ícone redondo, sem eyebrow decorativo) ---------- */
   .store-hero{
-    padding:64px 34px 46px 34px;
-    text-align:center;
     position:relative;
     overflow:hidden;
     border-bottom:1px solid var(--border-soft);
+    background:
+      radial-gradient(ellipse 50% 90% at 100% 0%, rgba(201,162,75,0.10), transparent 60%),
+      linear-gradient(180deg, #0c0b0c 0%, var(--bg) 100%);
   }
-  .store-hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse 60% 70% at 50% 0%, rgba(201,162,75,0.10), transparent 70%);
-    pointer-events:none;
+  .hero-grid{
+    max-width:1280px; margin:0 auto;
+    padding:60px 38px 48px 38px;
+    display:grid;
+    grid-template-columns:1.3fr 0.9fr;
+    gap:48px;
+    align-items:end;
   }
-  .store-hero .eyebrow{
-    position:relative; z-index:1;
-    display:inline-flex; align-items:center; gap:7px;
-    font-size:11px; color:var(--gold-dim); font-weight:700;
-    letter-spacing:.04em;
-    margin-bottom:16px;
-  }
-  .store-hero .eyebrow svg{width:13px; height:13px;}
-  .store-hero h1{
-    position:relative; z-index:1;
+  .hero-copy h1{
     font-family:var(--font-display);
     font-weight:500;
-    font-size:clamp(30px, 4.6vw, 48px);
-    margin:0 0 14px 0;
-    line-height:1.08;
+    font-size:clamp(32px, 4vw, 50px);
+    line-height:1.12;
+    margin:0 0 16px 0;
+    max-width:13ch;
+    color:var(--text);
   }
-  .store-hero h1 em{font-style:italic; color:var(--gold-light); font-weight:500;}
-  .store-hero p{
-    position:relative; z-index:1;
-    max-width:480px; margin:0 auto; color:var(--text-muted); font-size:14px; line-height:1.6;
+  .hero-copy p{
+    max-width:42ch; margin:0 0 20px 0;
+    color:var(--text-muted); font-size:14.5px; line-height:1.65;
   }
+  .hero-count{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; color:var(--gold-dim); font-weight:700;
+  }
+  .hero-count::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--gold-dim);}
 
-  .store-body{padding:42px 34px 70px 34px; flex:1; max-width:1280px; margin:0 auto; width:100%;}
+  .hero-panel{
+    border-left:1px solid var(--border);
+    padding-left:28px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .hero-panel-row{display:flex; flex-direction:column; gap:2px;}
+  .hero-panel-row .k{font-family:var(--font-display); font-size:15px; font-style:italic; color:var(--gold-light);}
+  .hero-panel-row .v{font-size:11.5px; color:var(--text-faint);}
+
+  /* ---------- Corpo / toolbar ---------- */
+  .store-body{padding:46px 38px 76px 38px; flex:1; max-width:1280px; margin:0 auto; width:100%;}
 
   .store-toolbar{
-    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-    margin-bottom:22px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding-bottom:18px; margin-bottom:26px;
+    border-bottom:1px solid var(--border-soft);
   }
-  .store-toolbar .chip-tabs{flex:1; min-width:220px;}
-  .store-toolbar .search-box{max-width:260px;}
+  .store-toolbar-right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; justify-content:flex-end;}
+  .store-sort{
+    height:38px;
+    background:transparent;
+    border:1px solid var(--border);
+    border-radius:20px;
+    color:var(--text-muted);
+    font-size:12px;
+    font-weight:600;
+    padding:0 14px;
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .store-sort:hover{border-color:var(--gold-dim); color:var(--text);}
+
+  .store-chip-tabs{display:flex; gap:7px; flex-wrap:wrap; flex:1; min-width:240px;}
+  .store-chip{
+    padding:0 2px 7px 2px;
+    border:none; border-bottom:2px solid transparent;
+    background:transparent;
+    color:var(--text-faint);
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+    margin-right:16px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .store-chip:hover{color:var(--text-muted);}
+  .store-chip.active{color:var(--gold-light); border-color:var(--gold);}
+
+  .store-search{
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:0 14px;
+    height:38px;
+    width:220px;
+    transition:border-color .15s ease;
+  }
+  .store-search:focus-within{border-color:var(--gold-dim);}
+  .store-search svg{width:14px; height:14px; stroke:var(--text-faint); flex-shrink:0;}
+  .store-search input{
+    background:transparent; border:none; outline:none; color:var(--text);
+    font-size:12.8px; width:100%; height:100%; font-family:inherit;
+  }
+  .store-search input::placeholder{color:var(--text-faint);}
+
+  .store-results-meta{
+    font-size:12px; color:var(--text-faint);
+    margin:-10px 0 20px 0;
+  }
+  .store-results-meta b{color:var(--text-muted); font-weight:700;}
 
   .store-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
-    gap:18px;
+    grid-template-columns:repeat(auto-fill, minmax(216px, 1fr));
+    gap:22px 20px;
   }
 
+  /* ---------- Cartão de produto ---------- */
   .p-card{
-    background:var(--surface);
-    border:1px solid var(--border-soft);
-    border-radius:var(--radius-l);
-    overflow:hidden;
     display:flex; flex-direction:column;
-    transition:border-color .15s ease, transform .15s ease;
+    cursor:default;
   }
-  .p-card:hover{border-color:rgba(201,162,75,0.3);}
-  .p-card.sold-out{opacity:0.72;}
   .p-card-media{
-    aspect-ratio:4/5;
+    aspect-ratio:3/4;
     position:relative;
+    overflow:hidden;
+    border-radius:2px;
+    background:var(--p-media, linear-gradient(165deg, #1c191b, #0d0c0d));
+  }
+  .p-card-media::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(200deg, rgba(255,255,255,0.05), transparent 45%);
+  }
+  .p-card-media .glyph{
+    position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(201,162,75,0.16), transparent 55%),
-      linear-gradient(155deg, #19171a, #0d0c0d);
-    border-bottom:1px solid var(--border-soft);
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:46px;
+    color:rgba(243,238,226,0.14);
+    letter-spacing:.02em;
+    user-select:none;
   }
-  .p-card-media svg{width:40px; height:40px; stroke:var(--gold-dim); opacity:.6;}
-  .p-card-badge{
+  .p-card.sold-out .p-card-media{filter:grayscale(.5);}
+  .p-card.sold-out .p-card-media::before{
+    content:"";
+    position:absolute; inset:0;
+    background:rgba(10,10,11,0.42);
+  }
+  .p-card-tag{
     position:absolute; top:10px; left:10px;
-    font-size:9.5px; font-weight:800; letter-spacing:.04em;
-    padding:4px 9px; border-radius:20px;
-    background:rgba(10,10,11,0.75); backdrop-filter:blur(3px);
-    color:var(--gold-light); border:1px solid rgba(201,162,75,0.3);
+    font-size:9.5px; font-weight:700; letter-spacing:.03em;
+    padding:4px 10px; border-radius:20px;
+    background:rgba(10,10,11,0.78); backdrop-filter:blur(3px);
+    color:var(--gold-light); border:1px solid rgba(201,162,75,0.28);
   }
-  .p-card-badge.out{color:#e3a797; border-color:rgba(182,92,73,0.4); background:rgba(10,10,11,0.85);}
-  .p-card-body{padding:14px 15px 15px 15px; display:flex; flex-direction:column; gap:9px; flex:1;}
-  .p-card-cat{font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint);}
-  .p-card-name{font-family:var(--font-display); font-size:15.5px; line-height:1.25; min-height:38px;}
-  .p-card-price{font-size:15px; font-weight:800; color:var(--gold-light); margin-top:auto;}
+  .p-card-tag.out{
+    color:var(--text-muted); border-color:var(--border); background:rgba(10,10,11,0.88);
+  }
+  .p-card-body{padding:13px 1px 0 1px; display:flex; flex-direction:column; gap:7px; flex:1;}
+  .p-card-cat{font-size:10.5px; color:var(--text-faint);}
+  .p-card-name{font-family:var(--font-display); font-size:15px; line-height:1.3; color:var(--text);}
+  .p-card-price{font-size:14px; font-weight:700; color:var(--text); margin-top:auto;}
+  .p-card.sold-out .p-card-price{color:var(--text-faint);}
   .p-card-sizes{display:flex; gap:5px; flex-wrap:wrap;}
   .p-size-opt{
-    min-width:28px; height:26px; padding:0 6px;
+    min-width:27px; height:25px; padding:0 6px;
     display:flex; align-items:center; justify-content:center;
-    border:1px solid var(--border); border-radius:4px;
-    font-size:10.5px; font-weight:700; color:var(--text-muted);
-    cursor:pointer; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:20px;
+    font-size:10px; font-weight:700; color:var(--text-muted);
+    cursor:pointer; background:transparent;
+    transition:border-color .12s ease, color .12s ease, background .12s ease;
   }
+  .p-size-opt:hover{border-color:var(--text-faint); color:var(--text);}
   .p-size-opt.sel{border-color:var(--gold); color:var(--gold-light); background:var(--gold-wash);}
   .p-card-add{
-    margin-top:2px;
+    margin-top:4px;
     width:100%;
-    padding:9px 10px;
+    padding:10px 10px;
     border-radius:var(--radius-s);
-    border:1px solid transparent;
-    background:linear-gradient(155deg, var(--gold-light), var(--gold) 65%);
-    color:#1a1509;
-    font-weight:800; font-size:12.3px;
+    border:1px solid var(--gold-dim);
+    background:transparent;
+    color:var(--gold-light);
+    font-weight:700; font-size:11.8px;
+    letter-spacing:.02em;
     cursor:pointer;
-    display:flex; align-items:center; justify-content:center; gap:6px;
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    transition:background .15s ease, color .15s ease;
   }
-  .p-card-add svg{width:14px; height:14px; stroke:currentColor;}
+  .p-card-add:hover:not(:disabled){background:var(--gold); color:#1a1509; border-color:var(--gold);}
+  .p-card-add svg{width:13px; height:13px; stroke:currentColor;}
   .p-card-add:disabled{
-    background:var(--surface-2); color:var(--text-faint); border-color:var(--border); cursor:not-allowed;
+    background:transparent; color:var(--text-faint); border-color:var(--border-soft); cursor:not-allowed;
   }
 
+  /* ---------- Rodapé ---------- */
   .store-footer{
     border-top:1px solid var(--border-soft);
-    padding:26px 34px;
+    padding:30px 38px;
     display:flex; align-items:center; justify-content:space-between;
     flex-wrap:wrap; gap:10px;
   }
@@ -929,7 +998,7 @@
   .store-footer .fl a{color:var(--text-faint); text-decoration:none; border-bottom:1px dotted var(--border);}
   .store-footer .fl a:hover{color:var(--gold-dim);}
 
-  /* carrinho (drawer) */
+  /* ---------- Carrinho (drawer) ---------- */
   .cart-overlay{
     position:fixed; inset:0; background:rgba(6,6,7,0.65); backdrop-filter:blur(2px);
     z-index:90; display:flex; justify-content:flex-end;
@@ -937,48 +1006,51 @@
   }
   .cart-drawer{
     width:100%; max-width:400px; height:100%;
-    background:var(--surface);
+    background:var(--bg-soft);
     border-left:1px solid var(--border);
     display:flex; flex-direction:column;
     animation:drawerIn .22s cubic-bezier(.2,.9,.25,1) both;
   }
   @keyframes drawerIn{from{transform:translateX(16px); opacity:0;} to{transform:translateX(0); opacity:1;}}
   .cart-drawer-head{
-    padding:18px 20px; border-bottom:1px solid var(--border-soft);
+    padding:20px 22px; border-bottom:1px solid var(--border-soft);
     display:flex; align-items:center; justify-content:space-between;
   }
-  .cart-drawer-head h3{font-family:var(--font-display); font-size:17px; margin:0;}
-  .cart-drawer-body{flex:1; overflow-y:auto; padding:16px 20px;}
-  .cart-drawer-foot{padding:18px 20px; border-top:1px solid var(--border-soft);}
+  .cart-drawer-head h3{font-family:var(--font-display); font-size:18px; font-weight:500; margin:0;}
+  .cart-drawer-body{flex:1; overflow-y:auto; padding:6px 22px;}
+  .cart-drawer-foot{padding:20px 22px; border-top:1px solid var(--border-soft);}
 
-  .cd-item{display:flex; gap:11px; padding:13px 0; border-bottom:1px solid var(--border-soft);}
+  .cd-item{display:flex; gap:13px; padding:15px 0; border-bottom:1px solid var(--border-soft);}
   .cd-item:last-child{border-bottom:none;}
   .cd-thumb{
-    width:52px; height:60px; border-radius:6px; flex-shrink:0;
-    background:linear-gradient(155deg, #19171a, #0d0c0d);
+    width:50px; height:62px; flex-shrink:0;
+    background:var(--p-media, linear-gradient(165deg, #1c191b, #0d0c0d));
     display:flex; align-items:center; justify-content:center;
-    border:1px solid var(--border-soft);
+    position:relative; overflow:hidden; border-radius:2px;
   }
-  .cd-thumb svg{width:18px; height:18px; stroke:var(--gold-dim);}
+  .cd-thumb .glyph{
+    font-family:var(--font-display); font-style:italic; font-size:19px;
+    color:rgba(243,238,226,0.16);
+  }
   .cd-info{flex:1; min-width:0;}
-  .cd-info .n{font-size:12.8px; font-weight:700; margin-bottom:2px;}
+  .cd-info .n{font-family:var(--font-display); font-size:13.5px; margin-bottom:3px;}
   .cd-info .m{font-size:11px; color:var(--text-faint);}
-  .cd-qty{display:flex; align-items:center; gap:7px; margin-top:7px;}
+  .cd-qty{display:flex; align-items:center; gap:8px; margin-top:8px;}
   .qty-btn{
-    width:22px; height:22px; border-radius:5px;
-    border:1px solid var(--border); background:var(--surface-2); color:var(--text-muted);
+    width:22px; height:22px; border-radius:50%;
+    border:1px solid var(--border); background:transparent; color:var(--text-muted);
     display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:13px;
   }
   .qty-btn:hover{border-color:var(--gold-dim); color:var(--gold-light);}
   .cd-qty .qn{font-size:12px; font-weight:700; min-width:16px; text-align:center;}
   .cd-right{display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between;}
-  .cd-right .amt{font-size:12.8px; font-weight:800; color:var(--gold-light);}
+  .cd-right .amt{font-size:12.8px; font-weight:700; color:var(--text);}
   .cd-remove{color:var(--text-faint); background:none; border:none; cursor:pointer; padding:2px;}
   .cd-remove svg{width:14px; height:14px; stroke:currentColor;}
   .cd-remove:hover{color:#e3a797;}
 
-  .cart-empty{text-align:center; padding:50px 10px; color:var(--text-faint);}
-  .cart-empty svg{width:34px; height:34px; stroke:var(--text-faint); margin-bottom:12px;}
+  .cart-empty{text-align:center; padding:60px 10px; color:var(--text-faint);}
+  .cart-empty svg{width:30px; height:30px; stroke:var(--text-faint); margin-bottom:14px; opacity:.6;}
 
   .login-note{
     font-size:11px; color:var(--text-faint);
@@ -987,11 +1059,20 @@
   }
   .login-note b{color:var(--text-muted);}
 
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr; gap:26px;}
+    .hero-panel{border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:20px; flex-direction:row; flex-wrap:wrap; gap:24px;}
+  }
   @media (max-width:640px){
     .store-header{padding:14px 18px;}
-    .store-hero{padding:46px 18px 34px 18px;}
-    .store-body{padding:30px 18px 50px 18px;}
-    .store-footer{padding:22px 18px;}
+    .hero-grid{padding:40px 18px 32px 18px;}
+    .hero-copy h1{max-width:none;}
+    .store-body{padding:32px 18px 56px 18px;}
+    .store-toolbar{flex-direction:column; align-items:stretch;}
+    .store-toolbar-right{justify-content:space-between;}
+    .store-search{flex:1; width:auto; min-width:0;}
+    .store-footer{padding:22px 18px; flex-direction:column; align-items:flex-start;}
+    .store-grid{grid-template-columns:repeat(2, 1fr); gap:14px 12px;}
     .cart-drawer{max-width:100%;}
   }
 </style>
@@ -1090,14 +1171,13 @@ const ICON = {
 };
 
 /* ============================================================
-   BANCO DE DADOS — SUPABASE (com cache local via localStorage
-   para abrir instantâneo e continuar funcionando offline).
-   Cada função db.* fala com o Supabase; se a rede falhar, cai
-   para o cache local salvo na última sincronização.
+   BANCO DE DADOS — SUPABASE
    ============================================================ */
 const STORAGE_KEYS = {
   products:'smc_products', sales:'smc_sales', settings:'smc_settings', seeded:'smc_seeded_v1',
-  customers:'smc_customers', cart:'smc_cart'
+  customers:'smc_customers', cart:'smc_cart',
+  /* ── BACKUP ── timestamp ISO do último backup gerado */
+  backup:'smc_last_backup'
 };
 
 const SUPABASE_URL = 'https://nhbmvksgzlbmryskepog.supabase.co';
@@ -1105,23 +1185,71 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const sb = (window.supabase && window.supabase.createClient)
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
-let supabaseOnline = true; // vira false se alguma chamada falhar, só para log/diagnóstico
+let supabaseOnline = true;
 
-/* ---------- Autenticação da área de gestão ---------- */
-let adminSession = null; // sessão atual (null = não autenticada)
+/* ---------- Autenticação: fonte única de verdade ----------
+   Toda a lógica de "quem está logado" passa por aqui. Nenhum outro
+   trecho do código deve atribuir adminSession ou state.currentCustomer
+   diretamente — sempre usar setAdminSession()/applyAuthSession(),
+   e consultar isAdminLoggedIn() para saber se a administradora está
+   autenticada. Isso evita dois caminhos divergentes (login manual vs
+   onAuthStateChange) fazendo a mesma coisa de formas diferentes. */
+let adminSession = null;
 
-/* --- Timeout de inatividade: 30 minutos ---
-   Reseta a cada interação do usuário (clique, teclado, scroll, toque).
-   Quando estourar, faz logout e volta para a loja com aviso. */
-const INACTIVITY_MS = 30 * 60 * 1000; // 30 minutos
+function isAdminLoggedIn(){
+  return !!(adminSession && adminSession.user);
+}
+
+function setAdminSession(sessao){
+  adminSession = sessao || null;
+  updateAdminSessionLabel();
+}
+
+/**
+ * Dado um objeto de sessão do Supabase (ou null, quando deslogado),
+ * descobre se pertence à administradora ou a uma cliente e atualiza
+ * adminSession / state.currentCustomer de forma consistente — os dois
+ * nunca ficam preenchidos ao mesmo tempo. É o único lugar que decide
+ * "é admin ou é cliente"; use isso tanto no login manual quanto no
+ * onAuthStateChange e no init(), para que todos os fluxos convirjam
+ * para o mesmo resultado.
+ */
+async function applyAuthSession(sessaoSupabase){
+  if(!sessaoSupabase){
+    setAdminSession(null);
+    state.currentCustomer = null;
+    return;
+  }
+  if(!sb){ return; }
+  try{
+    const { data: profile } = await sb.from('customer_profiles').select('*').eq('id', sessaoSupabase.user.id).maybeSingle();
+    if(!profile){
+      // Sem registro em customer_profiles = conta de administradora.
+      setAdminSession(sessaoSupabase);
+      state.currentCustomer = null;
+    } else {
+      setAdminSession(null);
+      state.currentCustomer = {
+        id: sessaoSupabase.user.id,
+        nome: profile.nome,
+        email: sessaoSupabase.user.email,
+        telefone: profile.telefone || ''
+      };
+    }
+  }catch(e){
+    console.warn('[Auth] falha ao resolver sessão.', e.message||e);
+  }
+}
+
+const INACTIVITY_MS = 30 * 60 * 1000;
 let _inactivityTimer = null;
 
 function resetInactivityTimer(){
-  if(!adminSession) return; // só conta quando há sessão ativa
+  if(!isAdminLoggedIn()) return;
   clearTimeout(_inactivityTimer);
   _inactivityTimer = setTimeout(()=>{
-    if(adminSession && state.view==='admin'){
-      logoutAdmin(true); // true = logout por inatividade
+    if(isAdminLoggedIn() && state.view==='admin'){
+      logoutAdmin(true);
     }
   }, INACTIVITY_MS);
 }
@@ -1141,18 +1269,28 @@ function stopInactivityWatcher(){
 if(sb){
   sb.auth.onAuthStateChange((event, session)=>{
     if(event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION'){
-      // Mantém sessões ativas sem redirecionar
-      if(session && state.view === 'admin') adminSession = session;
+      // Apenas atualiza o token de uma sessão de administradora já
+      // conhecida — nunca decide sozinho se alguém é admin ou cliente.
+      if(session && isAdminLoggedIn()) setAdminSession(session);
       updateAdminSessionLabel();
       return;
     }
+    if(event === 'SIGNED_IN'){
+      // Mesmo caminho usado pelo login manual (doLogin) e pelo init():
+      // assim os três fluxos nunca divergem sobre quem está logada.
+      applyAuthSession(session).then(()=>{
+        if(state.view === 'loja') renderStore();
+      });
+      return;
+    }
     if(event === 'SIGNED_OUT'){
-      adminSession = null;
+      setAdminSession(null);
       state.currentCustomer = null;
-      updateAdminSessionLabel();
       if(state.view === 'admin'){
         stopInactivityWatcher();
         showLoja();
+      } else if(state.view === 'loja'){
+        renderStore();
       }
     }
   });
@@ -1179,9 +1317,6 @@ function uid(prefix){
   return (prefix||'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 }
 
-/* Guarda os ids que sabemos que existem no Supabase, para cada tabela,
-   assim conseguimos descobrir quais linhas precisam ser apagadas quando
-   a lista local muda (um item removido do array vira um DELETE remoto). */
 const _remoteIds = { products: new Set(), sales: new Set(), customers: new Set() };
 
 function toProductRow(p){
@@ -1201,26 +1336,35 @@ function fromSaleRow(r){
     itens:r.itens||[], total:Number(r.total), status:r.status, parcelas:r.parcelas||[] };
 }
 function toCustomerRow(c){
-  // Sem campo senha — autenticação via Supabase Auth
   return { id:c.id, nome:c.nome, email:c.email, telefone:c.telefone||'' };
 }
 function fromCustomerRow(r){
   return { id:r.id, nome:r.nome, email:r.email, telefone:r.telefone };
 }
+
+/* ── toSettingsRow / fromSettingsRow incluem os novos campos de backup ── */
 function toSettingsRow(s){
-  return { id:'main', store_name:s.storeName, whatsapp:s.whatsapp||'', instagram:s.instagram||'',
-    address:s.address||'', cnpj:s.cnpj||'', low_stock_alert:!!s.lowStockAlert, low_stock_threshold:s.lowStockThreshold };
+  return {
+    id:'main', store_name:s.storeName, whatsapp:s.whatsapp||'', instagram:s.instagram||'',
+    address:s.address||'', cnpj:s.cnpj||'', low_stock_alert:!!s.lowStockAlert,
+    low_stock_threshold:s.lowStockThreshold,
+    /* novos campos — requerem ALTER TABLE settings ADD COLUMN no Supabase */
+    backup_interval_days: s.backupIntervalDays||7,
+    supabase_backup: !!s.supabaseBackup
+  };
 }
 function fromSettingsRow(r){
-  return { storeName:r.store_name, whatsapp:r.whatsapp||'', instagram:r.instagram||'',
+  return {
+    storeName:r.store_name, whatsapp:r.whatsapp||'', instagram:r.instagram||'',
     address:r.address||'', cnpj:r.cnpj||'', lowStockAlert:!!r.low_stock_alert,
     lowStockThreshold:(r.low_stock_threshold===null||r.low_stock_threshold===undefined)?3:r.low_stock_threshold,
-    supabaseUrl:SUPABASE_URL, supabaseKey:SUPABASE_ANON_KEY };
+    /* fallback para bancos ainda sem as novas colunas */
+    backupIntervalDays: (r.backup_interval_days===null||r.backup_interval_days===undefined)?7:r.backup_interval_days,
+    supabaseBackup: !!r.supabase_backup,
+    supabaseUrl:SUPABASE_URL, supabaseKey:SUPABASE_ANON_KEY
+  };
 }
 
-/* Sincroniza uma lista inteira (produtos, vendas ou clientes) com uma
-   tabela do Supabase: insere/atualiza tudo que está na lista (upsert) e
-   apaga no servidor o que foi removido localmente desde a última sync. */
 async function syncList(table, list, idKey, toRow){
   if(!sb) throw new Error('Cliente Supabase indisponível');
   const newIds = new Set(list.map(x=>x.id));
@@ -1356,12 +1500,41 @@ const db = {
     }catch(e){
       console.warn('[DB] falha ao salvar clientes.', e.message||e);
       if(e.code==='42501'||e.message?.includes('permission')||e.message?.includes('policy')){
-        // RLS em customers é esperado para usuários não autenticados — não exibir toast
         console.warn('[DB] cliente sem permissão de escrita (esperado com RLS).', e.message||e);
       } else {
         toast('Dados salvos localmente. Sincronização pendente.', 'info');
       }
     }
+  },
+
+  /* ── BACKUP no Supabase ──────────────────────────────────────────────────
+     Requer a tabela abaixo no seu projeto Supabase:
+
+       create table if not exists backups (
+         id           text primary key,
+         backup_json  jsonb not null,
+         backed_up_at timestamptz default now(),
+         products_count int,
+         sales_count    int
+       );
+       alter table backups enable row level security;
+       create policy "admin_rw" on backups
+         for all using (auth.role() = 'authenticated')
+         with check (auth.role() = 'authenticated');
+
+     Para manter um histórico em vez de só o último, troque o `upsert`
+     por `insert` e remova o `onConflict`. Limite por conta e limpeza
+     periódica ficam por sua conta. ──────────────────────────────────── */
+  async saveBackup(payload){
+    if(!sb) throw new Error('Cliente Supabase indisponível');
+    const {error} = await sb.from('backups').upsert({
+      id: 'latest',
+      backup_json: payload,
+      backed_up_at: new Date().toISOString(),
+      products_count: (payload.products||[]).length,
+      sales_count: (payload.sales||[]).length
+    }, {onConflict:'id'});
+    if(error) throw error;
   }
 };
 
@@ -1374,12 +1547,10 @@ function instagramUrl(){
   return DEFAULT_INSTAGRAM_URL;
 }
 function onlyDigits(str){ return (str||'').replace(/\D/g,''); }
-/* Monta o link do WhatsApp (wa.me) já com a mensagem do pedido preenchida,
-   listando os itens da sacola. Usa o número cadastrado em Configurações. */
 function whatsappCheckoutUrl(){
   const digits = onlyDigits(state.settings.whatsapp);
   if(!digits) return null;
-  const phone = digits.length<=11 ? '55'+digits : digits; // assume Brasil se não tiver o DDI
+  const phone = digits.length<=11 ? '55'+digits : digits;
   const nome = state.currentCustomer ? state.currentCustomer.nome : '';
   const total = state.cart.reduce((s,i)=>s+i.preco*i.qtd,0);
   const storeName = state.settings.storeName || 'Silvana Moda & Cosméticos';
@@ -1403,13 +1574,15 @@ function defaultSettings(){
     cnpj:'',
     lowStockAlert: true,
     lowStockThreshold: 3,
+    /* ── novos campos de backup ── */
+    backupIntervalDays: 7,  // 0 = desativado
+    supabaseBackup: false,  // salvar cópia JSON na tabela "backups" do Supabase
     supabaseUrl:SUPABASE_URL,
     supabaseKey:SUPABASE_ANON_KEY
   };
 }
 
-/* ---------- Dados de exemplo (apenas na primeira vez, quando o
-   Supabase ainda não tem nenhum produto/venda cadastrado) ---------- */
+/* ---------- Dados de exemplo ---------- */
 async function seedIfEmpty(){
   const products = [
     {id:uid('p'), nome:'Vestido Midi Essência', categoria:'Vestidos', sizes:['P','M','G'], cor:'Preto', preco:249.90, custo:120, estoque:8, sku:'VM-001'},
@@ -1453,16 +1626,11 @@ async function seedIfEmpty(){
     mkSale({cliente:'Patrícia Gomes', telefone:'', date:daysAgo(6), tipo:'vista',
       itens:[{productId:p[2].id, nome:p[2].nome, tamanho:'P', qtd:1, preco:p[2].preco}]})
   ];
-  // marca a 1a parcela da venda mais antiga a prazo como paga, para exemplificar status "parcial"
   if(sales[5] && sales[5].parcelas && sales[5].parcelas[0]) sales[5].parcelas[0].status = 'pago';
   recalcSaleStatus(sales[5]);
 
   await db.saveSales(sales);
   await db.saveSettings(defaultSettings());
-
-  // Clientes são criados via Supabase Auth — sem senhas salvas aqui.
-  // Para fins de demonstração, a tabela customer_profiles começa vazia.
-
   write(STORAGE_KEYS.seeded, true);
 }
 
@@ -1503,20 +1671,20 @@ function recalcSaleStatus(sale){
    ESTADO GLOBAL
    ============================================================ */
 const state = {
-  view: 'loja', // 'loja' (pública) | 'admin' (restrita)
+  view: 'loja',
   route:'dashboard',
   products: [],
   sales: [],
   settings: defaultSettings(),
   customers: [],
-  cart: [], // {productId, nome, tamanho, qtd, preco}
+  cart: [],
   currentCustomer: null,
   ui:{
     produtosSearch:'', produtosCategoria:'todas',
     vendasFiltro:'todas', vendasBusca:'',
     condicionaisAviso: true,
-    lojaBusca:'', lojaCategoria:'todas',
-    cartSizeSel:{} // seleção temporária de tamanho por produto na vitrine
+    lojaBusca:'', lojaCategoria:'todas', lojaOrdenacao:'relevancia',
+    cartSizeSel:{}
   }
 };
 
@@ -1530,8 +1698,6 @@ async function loadState(){
   state.customers = customers;
   state.cart = read(STORAGE_KEYS.cart, []) || [];
 
-  // Primeira vez de todas (Supabase e cache local ainda vazios): popula
-  // com os dados de demonstração e já salva tudo no Supabase.
   if(state.products.length===0 && state.sales.length===0 && !read(STORAGE_KEYS.seeded,false)){
     await seedIfEmpty();
     const [products2, sales2, settings2, customers2] = await Promise.all([
@@ -1543,14 +1709,14 @@ async function loadState(){
     state.customers = customers2;
   }
 }
-function persistProducts(){ db.saveProducts(state.products); }
-function persistSales(){ db.saveSales(state.sales); }
-function persistSettings(){ db.saveSettings(state.settings); }
-function persistCustomers(){ db.saveCustomers(state.customers); }
+function persistProducts(){ return db.saveProducts(state.products); }
+function persistSales(){ return db.saveSales(state.sales); }
+function persistSettings(){ return db.saveSettings(state.settings); }
+function persistCustomers(){ return db.saveCustomers(state.customers); }
 function persistCart(){ write(STORAGE_KEYS.cart, state.cart); }
 
 /* ============================================================
-   HELPERS DE FORMATAÇÃO
+   FORMATAÇÃO
    ============================================================ */
 function money(v){
   return (v<0?'-':'') + 'R$ ' + Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
@@ -1673,7 +1839,7 @@ function confirmModal(message, onConfirm){
       <button class="btn btn-danger" id="cfOk">Confirmar</button>`,
     onMount:()=>{
       document.getElementById('cfCancel').addEventListener('click', closeModal);
-      document.getElementById('cfOk').addEventListener('click', ()=>{ closeModal(); onConfirm(); });
+      document.getElementById('cfOk').addEventListener('click', async ()=>{ closeModal(); await onConfirm(); });
     }
   });
 }
@@ -1701,7 +1867,7 @@ function render(){
 }
 
 /* ============================================================
-   NAVEGAÇÃO ENTRE LOJA (pública) E GESTÃO (restrita)
+   NAVEGAÇÃO ENTRE LOJA E GESTÃO
    ============================================================ */
 async function showLoja(){
   state.view = 'loja';
@@ -1709,17 +1875,20 @@ async function showLoja(){
   closeSidebarMobile();
   document.getElementById('storeView').style.display = '';
   document.getElementById('adminView').style.display = 'none';
-  await resolveCustomerSession(); // resolve sessão UMA VEZ ao abrir a loja
-  renderStore();                  // render síncrono a partir daqui
+  await resolveCustomerSession();
+  renderStore();
 }
+
 function showAdmin(){
   state.view = 'admin';
   document.getElementById('storeView').style.display = 'none';
   document.getElementById('adminView').style.display = '';
   updateAdminSessionLabel();
-  startInactivityWatcher(); // começa/retoma contagem de inatividade
+  startInactivityWatcher();
+  checkAutoBackup(); // ← verifica e dispara backup automático se necessário
   render();
 }
+
 async function logoutAdmin(porInatividade){
   stopInactivityWatcher();
   try{
@@ -1727,7 +1896,7 @@ async function logoutAdmin(porInatividade){
   }catch(e){
     console.warn('[Auth] falha ao encerrar sessão.', e.message||e);
   }
-  adminSession = null;
+  setAdminSession(null);
   if(porInatividade){
     toast('Sessão encerrada por inatividade. Faça login novamente.', 'warn');
   } else {
@@ -1737,8 +1906,130 @@ async function logoutAdmin(porInatividade){
 }
 
 /* ============================================================
+   BACKUP — helpers e lógica principal
+   ============================================================ */
+
+/** Formata um timestamp ISO para exibição em português. */
+function formatBackupDate(iso){
+  if(!iso) return 'Nunca realizado';
+  try{
+    const d = new Date(iso);
+    return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}) +
+           ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){ return 'Data inválida'; }
+}
+
+/**
+ * Gera e baixa o arquivo JSON de backup.
+ * Atualiza o timestamp em localStorage.
+ * Se state.settings.supabaseBackup for true, salva também no Supabase.
+ * @param {Object} options
+ * @param {boolean} options.isAuto  true quando disparado automaticamente
+ */
+async function exportBackup({isAuto=false}={}){
+  const payload = {
+    products: state.products,
+    sales: state.sales,
+    settings: state.settings,
+    exportedAt: new Date().toISOString(),
+    auto: isAuto
+  };
+
+  /* Baixa o arquivo JSON */
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `silvana-moda-backup-${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+
+  /* Grava o timestamp do backup */
+  const now = new Date().toISOString();
+  write(STORAGE_KEYS.backup, now);
+
+  /* Atualiza o label na UI, se a aba Configurações estiver aberta */
+  const labelEl = document.getElementById('lastBackupLabel');
+  if(labelEl) labelEl.textContent = formatBackupDate(now);
+
+  /* Copia para o Supabase, se a opção estiver ativa */
+  if(state.settings.supabaseBackup){
+    try{
+      await db.saveBackup(payload);
+      toast(isAuto
+        ? 'Backup automático gerado e salvo no Supabase.'
+        : 'Backup salvo localmente e no Supabase.', 'success');
+    }catch(e){
+      console.warn('[DB] falha ao salvar backup no Supabase.', e.message||e);
+      toast('Backup baixado, mas falha ao salvar no Supabase.', 'warn');
+    }
+  }else{
+    toast(isAuto ? 'Backup automático gerado.' : 'Backup exportado com sucesso.', 'success');
+  }
+}
+
+/**
+ * Verifica se o intervalo de backup automático já passou.
+ * Chamado toda vez que o painel de gestão é aberto (showAdmin).
+ * - Se nunca foi feito backup: mostra aviso (não baixa automaticamente na primeira vez).
+ * - Se o intervalo configurado já passou: dispara exportBackup após 1 s.
+ * - Se backupIntervalDays === 0: recurso desativado.
+ */
+function checkAutoBackup(){
+  const intervalDays = state.settings.backupIntervalDays;
+  if(!intervalDays || intervalDays <= 0) return; // desativado
+
+  const lastIso = read(STORAGE_KEYS.backup, null);
+
+  if(!lastIso){
+    /* Primeiro acesso sem backup — apenas avisa */
+    setTimeout(()=>{
+      toast('Você ainda não fez nenhum backup. Acesse Configurações → Dados locais para criar o primeiro.', 'warn');
+    }, 1400);
+    return;
+  }
+
+  const diffMs = Date.now() - new Date(lastIso).getTime();
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+  if(diffDays >= intervalDays){
+    setTimeout(()=>{
+      const d = Math.floor(diffDays);
+      toast(`Backup automático: último há ${d} dia${d===1?'':'s'}.`, 'info');
+      exportBackup({isAuto:true});
+    }, 1000);
+  }
+}
+
+/* ============================================================
    LOJA — catálogo público
    ============================================================ */
+/* Paleta de fundo por categoria para a mídia do produto — como ainda não
+   há fotos, cada categoria recebe uma tonalidade sutil própria e um
+   monograma com a inicial do nome, em vez de um ícone genérico repetido
+   em todos os cartões. */
+const CATEGORY_TINT = {
+  'Vestidos':   '#241b1d, #0d0c0d',
+  'Blusas':     '#1d2024, #0d0c0d',
+  'Calças':     '#1a1d17, #0d0c0d',
+  'Saias':      '#241f14, #0d0c0d',
+  'Conjuntos':  '#231a24, #0d0c0d',
+  'Acessórios': '#1f1b14, #0d0c0d',
+  'Calçados':   '#141c20, #0d0c0d',
+  'Perfumaria': '#201620, #0d0c0d',
+  'Cosméticos': '#231619, #0d0c0d'
+};
+function productMediaStyle(p){
+  const tint = CATEGORY_TINT[p.categoria] || '#1c191b, #0d0c0d';
+  return `--p-media:linear-gradient(165deg, ${tint});`;
+}
+function productGlyph(nome){
+  return escapeHtml((nome||'?').trim().charAt(0).toUpperCase());
+}
+
 function renderProductCard(p){
   const soldOut = p.estoque < 1;
   const lowStock = !soldOut && p.estoque <= (state.settings.lowStockThreshold||3);
@@ -1746,9 +2037,9 @@ function renderProductCard(p){
   const selectedSize = state.ui.cartSizeSel[p.id] || (p.sizes && p.sizes.length===1 ? p.sizes[0] : '');
   return `
     <div class="p-card ${soldOut?'sold-out':''}">
-      <div class="p-card-media">
-        ${soldOut?`<span class="p-card-badge out">Esgotado</span>`:(lowStock?`<span class="p-card-badge">Últimas peças</span>`:'')}
-        ${ICON.hanger}
+      <div class="p-card-media" style="${productMediaStyle(p)}">
+        ${soldOut?`<span class="p-card-tag out">Esgotado</span>`:(lowStock?`<span class="p-card-tag">Últimas peças</span>`:'')}
+        <span class="glyph">${productGlyph(p.nome)}</span>
       </div>
       <div class="p-card-body">
         <span class="p-card-cat">${escapeHtml(p.categoria)}</span>
@@ -1764,65 +2055,98 @@ function renderProductCard(p){
     </div>`;
 }
 
-/* Resolve quem está logado como cliente e guarda em state.currentCustomer.
-   Chamado apenas quando a loja é aberta (showLoja) ou após login/logout —
-   NÃO a cada re-render, para evitar pisca e requisições desnecessárias. */
 async function resolveCustomerSession(){
-  state.currentCustomer = null;
   if(!sb) return;
+  // A administradora já está resolvida (adminSession); não mexe em
+  // state.currentCustomer nesse caso — applyAuthSession garante que
+  // os dois nunca ficam preenchidos ao mesmo tempo.
+  if(isAdminLoggedIn()) return;
+  state.currentCustomer = null;
   try{
     const { data } = await sb.auth.getSession();
-    if(data && data.session && !adminSession){
-      const uid_auth = data.session.user.id;
-      const { data: profile } = await sb.from('customer_profiles').select('*').eq('id', uid_auth).maybeSingle();
-      if(profile){
-        state.currentCustomer = {
-          id: uid_auth,
-          nome: profile.nome,
-          email: data.session.user.email,
-          telefone: profile.telefone||''
-        };
-      }
-    }
+    if(data && data.session) await applyAuthSession(data.session);
   }catch(e){ console.warn('[Auth] falha ao obter sessão de cliente.', e.message||e); }
 }
 
-function renderStore(){
+const ORDENACOES = [
+  {val:'relevancia', label:'Relevância'},
+  {val:'novidades', label:'Novidades'},
+  {val:'vendidos', label:'Mais vendidos'},
+  {val:'menor-preco', label:'Menor preço'},
+  {val:'maior-preco', label:'Maior preço'}
+];
 
-  const { lojaBusca, lojaCategoria } = state.ui;
+function renderStore(){
+  const { lojaBusca, lojaCategoria, lojaOrdenacao } = state.ui;
   let list = state.products.slice();
   if(lojaCategoria!=='todas') list = list.filter(p=>p.categoria===lojaCategoria);
   if(lojaBusca.trim()){
     const q = lojaBusca.trim().toLowerCase();
     list = list.filter(p=>p.nome.toLowerCase().includes(q));
   }
+
+  // Unidades vendidas por produto, somadas a partir do histórico de vendas
+  // já carregado em state.sales — usado só para a ordenação "Mais vendidos",
+  // sem alterar nada da lógica de vendas em si.
+  const vendidosPorProduto = {};
+  if(Array.isArray(state.sales)){
+    state.sales.forEach(venda=>{
+      (venda.itens||[]).forEach(it=>{
+        vendidosPorProduto[it.productId] = (vendidosPorProduto[it.productId]||0) + (it.qtd||0);
+      });
+    });
+  }
+  const indiceCadastro = new Map(state.products.map((p,i)=>[p.id,i]));
+
   list.sort((a,b)=>{
     const ea = a.estoque<1?1:0, eb = b.estoque<1?1:0;
-    if(ea!==eb) return ea-eb;
+    if(ea!==eb) return ea-eb; // esgotados sempre por último, qualquer que seja a ordenação
+    if(lojaOrdenacao==='menor-preco') return a.preco-b.preco;
+    if(lojaOrdenacao==='maior-preco') return b.preco-a.preco;
+    if(lojaOrdenacao==='vendidos'){
+      const diff = (vendidosPorProduto[b.id]||0) - (vendidosPorProduto[a.id]||0);
+      return diff!==0 ? diff : a.nome.localeCompare(b.nome);
+    }
+    if(lojaOrdenacao==='novidades') return indiceCadastro.get(b.id) - indiceCadastro.get(a.id);
     return a.nome.localeCompare(b.nome);
   });
 
   const cartQty = state.cart.reduce((s,i)=>s+i.qtd,0);
   const storeName = state.settings.storeName || 'Silvana Moda & Cosméticos';
   const firstName = storeName.split(' ')[0];
+  const totalCatalogo = state.products.length;
 
   function chipTab(val,label){
-    return `<button class="chip-tab ${lojaCategoria===val?'active':''}" data-loja-cat="${val}">${label}</button>`;
+    return `<button class="store-chip ${lojaCategoria===val?'active':''}" data-loja-cat="${val}">${label}</button>`;
+  }
+
+  let resultsMeta;
+  if(lojaBusca.trim() && !list.length){
+    resultsMeta = `Nenhum resultado para "${escapeHtml(lojaBusca.trim())}"`;
+  } else if(lojaBusca.trim()){
+    resultsMeta = `<b>${list.length}</b> resultado${list.length===1?'':'s'} para "${escapeHtml(lojaBusca.trim())}"`;
+  } else {
+    resultsMeta = `<b>${list.length}</b> peça${list.length===1?'':'s'}${lojaCategoria!=='todas' ? ` em ${escapeHtml(lojaCategoria)}` : ''}`;
   }
 
   document.getElementById('storeView').innerHTML = `
     <div class="store">
       <header class="store-header">
         <div class="store-brand">
-          <div class="brand-mark">S</div>
-          <div class="brand-text"><span class="b1">${escapeHtml(firstName)}</span><span class="b2">Moda &amp; Cosméticos</span></div>
+          <span class="b1">${escapeHtml(firstName)}</span>
+          <span class="b2">Moda &amp; Cosméticos</span>
         </div>
         <div class="store-nav-right">
           ${state.currentCustomer ? `
             <div class="store-account-chip" id="accountChip">
               <span class="av">${escapeHtml(state.currentCustomer.nome.charAt(0).toUpperCase())}</span>
               <span>${escapeHtml(state.currentCustomer.nome.split(' ')[0])}</span>
-            </div>` : `
+            </div>` : isAdminLoggedIn() ? `
+            <div class="store-account-chip" id="accountChip">
+              <span class="av">${escapeHtml((adminSession.user.email||'A').charAt(0).toUpperCase())}</span>
+              <span>${escapeHtml((adminSession.user.email||'').split('@')[0])}</span>
+            </div>
+            <button class="btn btn-gold btn-sm" id="btnGoAdmin">${ICON.dashboard} Painel</button>` : `
             <button class="btn btn-line btn-sm" id="btnLoginCustomer">Entrar</button>
             <button class="btn btn-ghost btn-sm" id="btnCreateAccount">${ICON.user} Criar conta</button>`}
           <a class="cart-btn" href="${instagramUrl()}" target="_blank" rel="noopener" aria-label="Abrir Instagram da loja" title="Siga no Instagram">${ICON.instagram}</a>
@@ -1834,21 +2158,36 @@ function renderStore(){
       </header>
 
       <section class="store-hero">
-        <div class="eyebrow">${ICON.spark} Peças selecionadas com cuidado</div>
-        <h1>Moda com <em>brilho</em> e atitude</h1>
-        <p>Vestuário, acessórios e cosméticos pensados para quem gosta de se sentir única — do dia a dia às ocasiões especiais.</p>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>Peças com presença,<br>para o seu dia a dia.</h1>
+            <p>Vestuário, acessórios e cosméticos escolhidos um a um — do básico que vira favorito às ocasiões que pedem brilho.</p>
+            <span class="hero-count">${totalCatalogo} peça${totalCatalogo===1?'':'s'} na coleção atual</span>
+          </div>
+          <div class="hero-panel">
+            <div class="hero-panel-row"><span class="k">Toda semana</span><span class="v">Novidades na coleção</span></div>
+            <div class="hero-panel-row"><span class="k">Direto com a loja</span><span class="v">Atendimento pelo WhatsApp</span></div>
+            <div class="hero-panel-row"><span class="k">Sem compromisso</span><span class="v">Reserva antes de fechar</span></div>
+          </div>
+        </div>
       </section>
 
       <div class="store-body">
         <div class="store-toolbar">
-          <div class="chip-tabs">
+          <div class="store-chip-tabs">
             ${chipTab('todas','Todas')}${CATEGORIAS.map(c=>chipTab(c,c)).join('')}
           </div>
-          <div class="search-box">
-            ${ICON.search}
-            <input type="text" id="lojaBuscaInput" placeholder="Buscar produto..." value="${escapeHtml(lojaBusca)}">
+          <div class="store-toolbar-right">
+            <div class="store-search">
+              ${ICON.search}
+              <input type="text" id="lojaBuscaInput" placeholder="Buscar produto..." value="${escapeHtml(lojaBusca)}">
+            </div>
+            <select class="store-sort" id="lojaOrdenacaoSelect" aria-label="Ordenar por">
+              ${ORDENACOES.map(o=>`<option value="${o.val}" ${lojaOrdenacao===o.val?'selected':''}>${o.label}</option>`).join('')}
+            </select>
           </div>
         </div>
+        <p class="store-results-meta">${resultsMeta}</p>
 
         ${list.length ? `<div class="store-grid">${list.map(renderProductCard).join('')}</div>` : emptyState('Nenhum produto encontrado', 'Tente buscar por outro termo ou outra categoria.', ICON.produtos)}
       </div>
@@ -1870,12 +2209,22 @@ function bindStore(){
   if(createBtn) createBtn.addEventListener('click', openCreateAccountModal);
   const chip = document.getElementById('accountChip');
   if(chip) chip.addEventListener('click', ()=>{
-    confirmModal(`Deseja sair da conta de <strong>${escapeHtml(state.currentCustomer.nome)}</strong>?`, ()=>logoutCustomer());
+    if(state.currentCustomer){
+      confirmModal(`Deseja sair da conta de <strong>${escapeHtml(state.currentCustomer.nome)}</strong>?`, ()=>logoutCustomer());
+    } else if(isAdminLoggedIn()){
+      confirmModal(`Deseja sair da conta de administradora <strong>${escapeHtml(adminSession.user.email||'')}</strong>?`, ()=>logoutAdmin());
+    }
   });
+  const btnGoAdmin = document.getElementById('btnGoAdmin');
+  if(btnGoAdmin) btnGoAdmin.addEventListener('click', showAdmin);
 
   document.querySelectorAll('[data-loja-cat]').forEach(b=>b.addEventListener('click', ()=>{
     state.ui.lojaCategoria = b.dataset.lojaCat; renderStore();
   }));
+  const ordenacaoSelect = document.getElementById('lojaOrdenacaoSelect');
+  if(ordenacaoSelect) ordenacaoSelect.addEventListener('change', ()=>{
+    state.ui.lojaOrdenacao = ordenacaoSelect.value; renderStore();
+  });
   const buscaInput = document.getElementById('lojaBuscaInput');
   buscaInput.addEventListener('input', ()=>{
     state.ui.lojaBusca = buscaInput.value;
@@ -1923,9 +2272,12 @@ function openCart(){
           <button class="modal-close" id="cartCloseBtn" aria-label="Fechar">${ICON.close}</button>
         </div>
         <div class="cart-drawer-body">
-          ${state.cart.length ? state.cart.map((it,idx)=>`
+          ${state.cart.length ? state.cart.map((it,idx)=>{
+            const prod = state.products.find(x=>x.id===it.productId);
+            const tint = prod ? productMediaStyle(prod) : '--p-media:linear-gradient(165deg, #1c191b, #0d0c0d);';
+            return `
             <div class="cd-item">
-              <div class="cd-thumb">${ICON.hanger}</div>
+              <div class="cd-thumb" style="${tint}"><span class="glyph">${productGlyph(it.nome)}</span></div>
               <div class="cd-info">
                 <div class="n">${escapeHtml(it.nome)}</div>
                 <div class="m">Tam. ${escapeHtml(it.tamanho)}</div>
@@ -1939,7 +2291,8 @@ function openCart(){
                 <button class="cd-remove" data-cart-rm="${idx}" aria-label="Remover item">${ICON.trash}</button>
                 <span class="amt">${money(it.preco*it.qtd)}</span>
               </div>
-            </div>`).join('') : `<div class="cart-empty">${ICON.bag}<div>Sua sacola está vazia.</div></div>`}
+            </div>`;
+          }).join('') : `<div class="cart-empty">${ICON.bag}<div>Sua sacola está vazia.</div></div>`}
         </div>
         <div class="cart-drawer-foot">
           <div class="cart-total-row"><span class="lbl">Total</span><span>${money(total)}</span></div>
@@ -1984,7 +2337,7 @@ function syncCartBadge(){
   el.style.display = qty>0 ? 'flex' : 'none';
 }
 
-/* ---------- Conta da cliente (demonstrativa) ---------- */
+/* ---------- Conta da cliente ---------- */
 function openCreateAccountModal(){
   openModal({
     title:'Criar conta',
@@ -2020,16 +2373,14 @@ function openCreateAccountModal(){
         saveBtn.textContent = 'Criando conta...';
 
         try{
-          // 1) Cria usuário no Supabase Auth
           const { data, error } = await sb.auth.signUp({
             email,
             password: senha,
-            options: { data: { nome } } // metadata opcional no auth.users
+            options: { data: { nome } }
           });
 
           if(error) throw error;
 
-          // 2) Insere perfil na tabela customer_profiles vinculado ao auth.uid()
           if(data && data.user){
             const { error: profileError } = await sb.from('customer_profiles').insert({
               id: data.user.id,
@@ -2042,7 +2393,6 @@ function openCreateAccountModal(){
 
           toast(`Conta criada! Verifique seu e-mail para confirmar o cadastro, ${nome.split(' ')[0]}.`, 'success');
           closeModal();
-          // Se e-mail não precisar de confirmação, a sessão já está ativa:
           renderStore();
         }catch(e){
           console.warn('[Auth] falha ao criar conta.', e.message||e);
@@ -2107,26 +2457,13 @@ function openLoginCustomerModal(){
           if(error) throw error;
 
           if(data && data.session){
-            // Verifica se é usuário da área de gestão (administradora)
-            // A administradora é identificada pela ausência de registro em customer_profiles
-            // (ou por uma coluna role em auth.users.user_metadata, se preferir).
-            const { data: profile } = await sb.from('customer_profiles').select('id').eq('id', data.session.user.id).maybeSingle();
+            await applyAuthSession(data.session);
 
-            if(!profile){
-              // Sem perfil de cliente → é a administradora
-              adminSession = data.session;
-              updateAdminSessionLabel();
+            if(isAdminLoggedIn()){
               closeModal();
               toast('Acesso liberado. Bem-vinda à gestão.', 'success');
               showAdmin();
-            } else {
-              // Tem perfil de cliente → login de cliente da loja
-              state.currentCustomer = {
-                id: data.session.user.id,
-                nome: profile.nome || data.session.user.email,
-                email: data.session.user.email,
-                telefone: profile.telefone||''
-              };
+            } else if(state.currentCustomer){
               closeModal();
               toast(`Bem-vinda de volta, ${(state.currentCustomer.nome||'').split(' ')[0]}.`, 'success');
               renderStore();
@@ -2223,7 +2560,6 @@ function viewDashboard(){
     (s.parcelas||[]).forEach(p=>{ if(p.status!=='pago') aReceber += p.valor; });
   });
 
-  // últimos 7 dias
   const days = [];
   for(let i=6;i>=0;i--){
     const d = new Date(); d.setDate(d.getDate()-i);
@@ -2233,14 +2569,12 @@ function viewDashboard(){
   }
   const maxDay = Math.max(1, ...days.map(d=>d.total));
 
-  // produtos mais vendidos (qtd)
   const salesByProduct = {};
   state.sales.forEach(s=> s.itens.forEach(it=>{
     salesByProduct[it.nome] = (salesByProduct[it.nome]||0) + it.qtd;
   }));
   const topProdutos = Object.entries(salesByProduct).sort((a,b)=>b[1]-a[1]).slice(0,5);
 
-  // últimas vendas
   const ultimas = [...state.sales].sort((a,b)=> b.date.localeCompare(a.date)).slice(0,5);
 
   const estoqueBaixo = state.products.filter(p=>p.estoque<= (state.settings.lowStockThreshold||3));
@@ -2552,7 +2886,14 @@ function openProdutoModal(produto){
       });
 
       root.querySelector('#pCancel').addEventListener('click', closeModal);
-      root.querySelector('#pSave').addEventListener('click', ()=>{
+      const pSaveBtn = root.querySelector('#pSave');
+      const pSaveOriginal = pSaveBtn.innerHTML;
+      const setProdLoading = (on)=>{
+        pSaveBtn.disabled = on;
+        pSaveBtn.innerHTML = on ? 'Salvando…' : pSaveOriginal;
+      };
+
+      root.querySelector('#pSave').addEventListener('click', async ()=>{
         const nome = root.querySelector('#fNome').value.trim();
         const preco = parseFloat(root.querySelector('#fPreco').value);
         const estoque = parseInt(root.querySelector('#fEstoque').value,10);
@@ -2573,15 +2914,19 @@ function openProdutoModal(produto){
           estoque
         };
 
+        setProdLoading(true);
+
         if(editing){
           const idx = state.products.findIndex(x=>x.id===draft.id);
           state.products[idx] = payload;
-          toast('Produto atualizado.', 'success');
         }else{
           state.products.push(payload);
-          toast('Produto cadastrado.', 'success');
         }
-        persistProducts();
+
+        await persistProducts();
+
+        setProdLoading(false);
+        toast(editing ? 'Produto atualizado.' : 'Produto cadastrado.', 'success');
         closeModal();
         render();
       });
@@ -2673,14 +3018,13 @@ function bindVendas(){
   }));
   document.querySelectorAll('[data-delv]').forEach(b=>b.addEventListener('click', ()=>{
     const s = state.sales.find(x=>x.id===b.dataset.delv);
-    confirmModal(`Excluir a venda de <strong>${escapeHtml(s.cliente)}</strong> no valor de ${money(s.total)}? O estoque dos produtos será devolvido.`, ()=>{
-      // devolve estoque
+    confirmModal(`Excluir a venda de <strong>${escapeHtml(s.cliente)}</strong> no valor de ${money(s.total)}? O estoque dos produtos será devolvido.`, async ()=>{
       s.itens.forEach(it=>{
         const prod = state.products.find(p=>p.id===it.productId);
         if(prod) prod.estoque += it.qtd;
       });
       state.sales = state.sales.filter(x=>x.id!==s.id);
-      persistSales(); persistProducts();
+      await Promise.all([persistSales(), persistProducts()]);
       toast('Venda excluída e estoque devolvido.', 'success');
       render();
     });
@@ -2688,7 +3032,7 @@ function bindVendas(){
 }
 
 function openVendaModal(){
-  const cart = []; // {productId, nome, tamanho, qtd, preco}
+  const cart = [];
   let tipo = 'vista';
   let parcelasQtd = 2;
   let primeiraData = (function(){ const d=new Date(); d.setDate(d.getDate()+30); return d.toISOString().slice(0,10); })();
@@ -2836,10 +3180,19 @@ function openVendaModal(){
       }
 
       root.querySelector('#vCancel').addEventListener('click', closeModal);
-      root.querySelector('#vSave').addEventListener('click', ()=>{
+      const vSaveBtn = root.querySelector('#vSave');
+      const vSaveOriginal = vSaveBtn.innerHTML;
+      const setVendaLoading = (on)=>{
+        vSaveBtn.disabled = on;
+        vSaveBtn.innerHTML = on ? 'Registrando…' : vSaveOriginal;
+      };
+
+      root.querySelector('#vSave').addEventListener('click', async ()=>{
         const cliente = root.querySelector('#vCliente').value.trim();
         if(!cliente){ toast('Informe o nome da cliente.', 'danger'); return; }
         if(!cart.length){ toast('Adicione ao menos um produto à venda.', 'danger'); return; }
+
+        setVendaLoading(true);
 
         const telefone = root.querySelector('#vTelefone').value.trim();
         const sale = mkSale({
@@ -2848,14 +3201,22 @@ function openVendaModal(){
           primeiraData: tipo==='prazo'?primeiraData:undefined
         });
 
-        // baixa de estoque
+        // Deduz estoque em memória
+        const estoqueAnterior = {};
         cart.forEach(it=>{
           const prod = state.products.find(p=>p.id===it.productId);
-          if(prod) prod.estoque = Math.max(0, prod.estoque - it.qtd);
+          if(prod){
+            estoqueAnterior[prod.id] = prod.estoque;
+            prod.estoque = Math.max(0, prod.estoque - it.qtd);
+          }
         });
 
         state.sales.push(sale);
-        persistSales(); persistProducts();
+
+        // Persiste os dois em paralelo e aguarda ambos concluírem
+        await Promise.all([persistSales(), persistProducts()]);
+
+        setVendaLoading(false);
         toast('Venda registrada com sucesso.', 'success');
         closeModal();
         render();
@@ -2922,8 +3283,7 @@ function openVendaDetalhe(sale){
 }
 
 /* ============================================================
-   CONDICIONAIS — somente interface, sem persistência real.
-   Pronto para ser ligado ao Supabase futuramente.
+   CONDICIONAIS
    ============================================================ */
 const CONDICIONAIS_EXEMPLO = [
   {cliente:'Larissa Fontoura', pecas:'2 peças (Vestido Midi, Blusa Cetim)', saida:'06/10/2026', prazo:'09/10/2026', status:'em_aberto'},
@@ -3012,12 +3372,15 @@ function bindCondicionais(){
    ============================================================ */
 function viewConfig(){
   const s = state.settings;
+  const lastBackupDate = formatBackupDate(read(STORAGE_KEYS.backup, null));
+
   return `
     <div class="section-head">
       <div><h2>Configurações</h2><p>Dados da loja, preferências e integrações</p></div>
     </div>
 
     <div class="settings-grid">
+      <!-- ── Coluna esquerda ── -->
       <div>
         <div class="panel">
           <div class="panel-head"><h3>Dados da loja</h3></div>
@@ -3049,6 +3412,7 @@ function viewConfig(){
         </div>
       </div>
 
+      <!-- ── Coluna direita ── -->
       <div>
         <div class="panel">
           <div class="panel-head">
@@ -3067,25 +3431,67 @@ function viewConfig(){
           </p>
         </div>
 
+        <!-- ── DADOS LOCAIS (inclui indicador de backup e botão) ── -->
         <div class="panel">
           <div class="panel-head"><h3>Dados locais</h3></div>
-          <p style="font-size:12px; color:var(--text-faint); margin-top:0;">Faça backup dos dados cadastrados neste navegador ou restaure um backup anterior.</p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+
+          <!-- Indicador "Último backup" + botão primário -->
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:12px 0 14px 0; border-bottom:1px solid var(--border-soft); margin-bottom:14px;">
+            <div>
+              <div style="font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint); margin-bottom:4px;">Último backup</div>
+              <div style="font-size:12.5px; color:var(--text-muted); font-weight:600;" id="lastBackupLabel">${lastBackupDate}</div>
+            </div>
+            <button class="btn btn-gold btn-sm" id="btnBackupNow">${ICON.download} Fazer backup agora</button>
+          </div>
+
+          <p style="font-size:12px; color:var(--text-faint); margin-top:0; margin-bottom:12px;">Faça backup dos dados cadastrados ou restaure uma versão anterior.</p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn btn-ghost btn-sm" id="btnExport">${ICON.download} Exportar backup</button>
             <label class="btn btn-ghost btn-sm" style="cursor:pointer;">
               ${ICON.upload} Importar backup
               <input type="file" id="btnImport" accept="application/json" style="display:none;">
             </label>
           </div>
+
           <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border-soft);">
             <button class="btn btn-danger btn-sm" id="btnReset">${ICON.trash} Limpar todos os dados</button>
+          </div>
+        </div>
+
+        <!-- ── BACKUP AUTOMÁTICO ── -->
+        <div class="panel">
+          <div class="panel-head"><h3>Backup automático</h3></div>
+
+          <div class="switch-row">
+            <div>
+              <div class="sl">Salvar cópia no Supabase</div>
+              <div class="sd">
+                Cada backup também salva uma cópia JSON na tabela <strong style="color:var(--text-muted);">backups</strong> do seu projeto Supabase,
+                acessível mesmo que o arquivo local seja perdido.
+                Requer criação manual da tabela (ver comentário no código).
+              </div>
+            </div>
+            <div class="switch ${s.supabaseBackup?'on':''}" id="toggleSupabaseBackup"></div>
+          </div>
+
+          <div class="field" style="max-width:240px; margin-top:16px;">
+            <label for="sBackupInterval">Backup automático a cada (dias)</label>
+            <input type="number" id="sBackupInterval" min="0" max="365" value="${s.backupIntervalDays!==undefined?s.backupIntervalDays:7}" placeholder="7">
+            <div class="hint">Ao abrir o painel, se já passaram mais dias que o definido, o backup é disparado automaticamente. Use 0 para desativar.</div>
+          </div>
+
+          <div style="margin-top:14px; display:flex; justify-content:flex-end;">
+            <button class="btn btn-ghost btn-sm" id="btnSalvarBackupConfig">Salvar preferências de backup</button>
           </div>
         </div>
       </div>
     </div>
   `;
 }
+
 function bindConfig(){
+  /* ── Dados da loja ── */
   document.getElementById('btnSalvarLoja').addEventListener('click', ()=>{
     state.settings.storeName = document.getElementById('sNome').value.trim() || defaultSettings().storeName;
     state.settings.whatsapp = document.getElementById('sWhats').value.trim();
@@ -3097,10 +3503,11 @@ function bindConfig(){
     toast('Dados da loja salvos.', 'success');
   });
 
-  const toggle = document.getElementById('toggleLowStock');
-  toggle.addEventListener('click', ()=>{
+  /* ── Estoque ── */
+  const toggleLS = document.getElementById('toggleLowStock');
+  toggleLS.addEventListener('click', ()=>{
     state.settings.lowStockAlert = !state.settings.lowStockAlert;
-    toggle.classList.toggle('on', state.settings.lowStockAlert);
+    toggleLS.classList.toggle('on', state.settings.lowStockAlert);
   });
   document.getElementById('btnSalvarEstoque').addEventListener('click', ()=>{
     const t = parseInt(document.getElementById('sThreshold').value,10);
@@ -3109,17 +3516,13 @@ function bindConfig(){
     toast('Preferências de estoque salvas.', 'success');
   });
 
-  document.getElementById('btnExport').addEventListener('click', ()=>{
-    const backup = { products: state.products, sales: state.sales, settings: state.settings, exportedAt: new Date().toISOString() };
-    const blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'silvana-moda-backup.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-    toast('Backup exportado.', 'success');
-  });
+  /* ── "Fazer backup agora" (botão principal, dourado) ── */
+  document.getElementById('btnBackupNow').addEventListener('click', ()=>exportBackup({isAuto:false}));
 
+  /* ── "Exportar backup" (botão secundário — mesma ação, mantido por compatibilidade) ── */
+  document.getElementById('btnExport').addEventListener('click', ()=>exportBackup({isAuto:false}));
+
+  /* ── Importar backup ── */
   document.getElementById('btnImport').addEventListener('change', (e)=>{
     const file = e.target.files[0];
     if(!file) return;
@@ -3143,14 +3546,13 @@ function bindConfig(){
     e.target.value = '';
   });
 
+  /* ── Limpar todos os dados ── */
   document.getElementById('btnReset').addEventListener('click', ()=>{
     confirmModal('Isso vai apagar <strong>todos</strong> os produtos, vendas e clientes — inclusive no Supabase — e recarregar os dados de exemplo. Esta ação não pode ser desfeita. Deseja continuar?', async ()=>{
       try{
         await db.saveProducts([]);
         await db.saveSales([]);
-        // Perfis de clientes (customer_profiles) são vinculados ao Supabase Auth
-        // e não são apagados por aqui — faça isso direto no painel do Supabase se necessário.
-      }catch(e){ /* já tratado dentro de cada db.save*, segue com o reset local */ }
+      }catch(e){ /* já tratado internamente */ }
       localStorage.removeItem(STORAGE_KEYS.products);
       localStorage.removeItem(STORAGE_KEYS.sales);
       localStorage.removeItem(STORAGE_KEYS.settings);
@@ -3161,6 +3563,21 @@ function bindConfig(){
       render();
     });
   });
+
+  /* ── Toggle: salvar backup no Supabase ── */
+  const toggleSB = document.getElementById('toggleSupabaseBackup');
+  toggleSB.addEventListener('click', ()=>{
+    state.settings.supabaseBackup = !state.settings.supabaseBackup;
+    toggleSB.classList.toggle('on', state.settings.supabaseBackup);
+  });
+
+  /* ── Salvar preferências de backup ── */
+  document.getElementById('btnSalvarBackupConfig').addEventListener('click', ()=>{
+    const interval = parseInt(document.getElementById('sBackupInterval').value, 10);
+    state.settings.backupIntervalDays = isNaN(interval) || interval < 0 ? 7 : interval;
+    persistSettings();
+    toast('Preferências de backup salvas.', 'success');
+  });
 }
 
 /* ============================================================
@@ -3169,22 +3586,10 @@ function bindConfig(){
 (async function init(){
   await loadState();
 
-  // Verifica se existe sessão salva. Só considera adminSession se o usuário
-  // NÃO tiver perfil de cliente — evita que um cliente logado seja tratado
-  // como administradora ao recarregar a página.
   if(sb){
     try{
       const { data } = await sb.auth.getSession();
-      if(data && data.session){
-        const uid_check = data.session.user.id;
-        const { data: profile } = await sb.from('customer_profiles').select('id').eq('id', uid_check).maybeSingle();
-        if(!profile){
-          // Sem perfil de cliente → é a administradora
-          adminSession = data.session;
-        }
-        // Se tiver perfil de cliente, adminSession permanece null;
-        // resolveCustomerSession() dentro de showLoja vai cuidar do currentCustomer.
-      }
+      if(data && data.session) await applyAuthSession(data.session);
     }catch(e){
       console.warn('[Auth] falha ao verificar sessão.', e.message||e);
     }
