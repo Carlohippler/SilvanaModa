@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silvana Moda &amp; Cosméticos — Moda com brilho e atitude</title>
+<script>
+  /* Aplica o tema salvo antes da primeira pintura, para não "piscar".
+     Sem escolha salva, o padrão é sempre o escuro. */
+  (function(){
+    try{
+      var t = localStorage.getItem('smc_theme');
+      if(t==='light') document.documentElement.setAttribute('data-theme','light');
+    }catch(e){}
+  })();
+</script>
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -62,6 +72,33 @@
     --font-body: 'Manrope', sans-serif;
   }
 
+  /* ---------- Tema claro (opt-in via [data-theme="light"] no <html>) ----------
+     O escuro acima é sempre o padrão; o claro só entra quando a pessoa escolhe
+     pelo botão de alternância, e a escolha fica salva no navegador. */
+  :root[data-theme="light"]{
+    --bg: #f7f3ed;
+    --bg-soft: #f0ebe2;
+    --surface: #fefcf9;
+    --surface-2: #f5f0e8;
+    --surface-3: #ede6d8;
+    --border: #ddd5c4;
+    --border-soft: #e8e0d0;
+    --gold: #b8882a;
+    --gold-light: #9a6f1e;
+    --gold-dim: #c9a050;
+    --gold-wash: rgba(184,136,42,0.10);
+    --text: #1c1710;
+    --text-muted: #4a4030;
+    --text-faint: #7a6e5c;
+    --success: #4a6e2c;
+    --success-wash: rgba(74,110,44,0.11);
+    --warn: #9a6a18;
+    --warn-wash: rgba(154,106,24,0.11);
+    --danger: #8f3828;
+    --danger-wash: rgba(143,56,40,0.11);
+    --shadow-deep: 0 20px 50px rgba(20,14,5,0.13);
+  }
+
   *{box-sizing:border-box;}
   html,body{height:100%;}
   body{
@@ -72,6 +109,11 @@
     font-size:14.5px;
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
+    transition:background-color .2s ease, color .2s ease;
+  }
+  body, .store-header, .topbar, .sidebar, .panel, .table-wrap, .cart-drawer, .modal,
+  .stat-card, .store-sort, .store-search, .store-account-chip, .cart-btn, .theme-toggle{
+    transition:background-color .2s ease, color .2s ease, border-color .2s ease;
   }
   ::selection{background:var(--gold); color:#141214;}
   a{color:inherit;}
@@ -106,6 +148,10 @@
     padding:28px 18px;
     position:relative;
     overflow:hidden;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  :root[data-theme="light"] .sidebar{
+    background:linear-gradient(180deg, #2a2318 0%, #1e1a10 100%);
   }
   .sidebar::after{
     content:"";
@@ -115,6 +161,44 @@
     background:radial-gradient(ellipse at top, rgba(201,162,75,0.07), transparent 65%);
     pointer-events:none;
   }
+  :root[data-theme="light"] .sidebar::after{
+    background:radial-gradient(ellipse at top, rgba(201,162,75,0.12), transparent 65%);
+  }
+
+  /* Sidebar sempre tem fundo escuro — forçar cores claras nos filhos no modo light */
+  :root[data-theme="light"] .brand-text .b1{ color:#f3eee2; }
+  :root[data-theme="light"] .brand-text .b2{ color:#8a713a; }
+  :root[data-theme="light"] .brand-mark{
+    background: linear-gradient(145deg, rgba(201,162,75,0.14), transparent 60%), #161416;
+    border-color:#8a713a;
+    color:#e7cf8f;
+  }
+  :root[data-theme="light"] .nav-item{ color:#a89f8e; }
+  :root[data-theme="light"] .nav-item:hover{ color:#f3eee2; background:rgba(255,255,255,0.07); }
+  :root[data-theme="light"] .nav-item.active{
+    color:#e7cf8f;
+    background:rgba(201,162,75,0.08);
+    border-color:rgba(201,162,75,0.22);
+  }
+  :root[data-theme="light"] .nav-item .count{ color:#716a5d; }
+  :root[data-theme="light"] .nav-item.active .count{ color:#8a713a; }
+  :root[data-theme="light"] .sidebar-footer{ border-top-color:#211d1f; }
+  :root[data-theme="light"] .sidebar-footer .store-pill{
+    background:#161416;
+    border-color:#211d1f;
+  }
+  :root[data-theme="light"] .store-pill span{ color:#a89f8e; }
+  :root[data-theme="light"] .sidebar .btn-line{
+    color:#a89f8e;
+    border-color:#2b2628;
+  }
+  :root[data-theme="light"] .sidebar .btn-line:hover{ color:#f3eee2; border-color:#716a5d; }
+  :root[data-theme="light"] .sidebar .btn-ghost{
+    background:#161416;
+    border-color:#2b2628;
+    color:#a89f8e;
+  }
+  :root[data-theme="light"] .sidebar .btn-ghost:hover{ border-color:#8a713a; color:#e7cf8f; }
 
   .brand{
     display:flex;
@@ -243,6 +327,10 @@
     position:sticky;
     top:0;
     z-index:20;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  :root[data-theme="light"] .topbar{
+    background:rgba(247,243,237,0.88);
   }
   .topbar h1{
     font-family:var(--font-display);
@@ -336,6 +424,7 @@
   .btn-line:hover{color:var(--text); border-color:var(--text-faint);}
   .btn-danger{background:var(--danger-wash); color:#e3a797; border-color:rgba(182,92,73,0.3);}
   .btn-danger:hover{border-color:var(--danger);}
+  :root[data-theme="light"] .btn-danger{color:#8f3828;}
   .btn-sm{padding:7px 12px; font-size:12px;}
   .btn-icon{padding:8px; border-radius:var(--radius-s);}
   .btn:disabled{opacity:.45; cursor:not-allowed; transform:none;}
@@ -466,6 +555,10 @@
   .tag-danger{background:var(--danger-wash); color:#e3a797;}
   .tag-gold{background:var(--gold-wash); color:var(--gold-light); border-color:rgba(201,162,75,0.25);}
   .tag-muted{background:var(--surface-2); color:var(--text-faint); border-color:var(--border);}
+  :root[data-theme="light"] .tag-success{color:#3a5c20;}
+  :root[data-theme="light"] .tag-warn{color:#8a5a10;}
+  :root[data-theme="light"] .tag-danger{color:#8f3828;}
+  :root[data-theme="light"] .icon-btn.danger:hover{color:#8f3828;}
 
   .empty-state{
     text-align:center;
@@ -615,6 +708,9 @@
     padding:20px;
     animation:fadeIn .18s ease both;
   }
+  :root[data-theme="light"] .modal-overlay{
+    background:rgba(20,14,5,0.45);
+  }
   @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
   .modal{
     background:var(--surface);
@@ -691,6 +787,58 @@
     margin-left:8px;
   }
 
+  /* ---------- Upload de foto ---------- */
+  .foto-upload-area{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+  }
+  .foto-preview{
+    width:80px; height:100px;
+    border-radius:var(--radius-s);
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    overflow:hidden;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-style:italic; font-size:28px;
+    color:var(--text-faint);
+    position:relative;
+  }
+  .foto-preview img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .foto-preview .foto-remove{
+    position:absolute; top:4px; right:4px;
+    width:20px; height:20px; border-radius:50%;
+    background:rgba(0,0,0,0.6); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:12px; border:none;
+    line-height:1;
+  }
+  .foto-upload-actions{
+    display:flex; flex-direction:column; gap:8px; flex:1;
+  }
+  .foto-upload-label{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 14px;
+    border-radius:var(--radius-m);
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-size:13px; font-weight:700;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
+    font-family:inherit;
+  }
+  .foto-upload-label:hover{ border-color:var(--gold-dim); color:var(--gold-light); }
+  .foto-upload-label svg{ width:15px; height:15px; stroke:currentColor; flex-shrink:0; }
+  .foto-upload-hint{ font-size:11px; color:var(--text-faint); line-height:1.5; }
+  .foto-upload-status{ font-size:11.5px; color:var(--text-muted); }
+  .foto-upload-status.uploading{ color:var(--gold-dim); }
+  .foto-upload-status.done{ color:var(--success); }
+  .foto-upload-status.error{ color:var(--danger); }
+
   .settings-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px;}
   @media (max-width:980px){.settings-grid{grid-template-columns:1fr;}}
 
@@ -745,6 +893,10 @@
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
     gap:16px;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  :root[data-theme="light"] .store-header{
+    background:rgba(247,243,237,0.92);
   }
   .store-brand{display:flex; align-items:baseline; gap:9px; cursor:default;}
   .store-brand .b1{
@@ -803,6 +955,12 @@
     background:
       radial-gradient(ellipse 50% 90% at 100% 0%, rgba(201,162,75,0.10), transparent 60%),
       linear-gradient(180deg, #0c0b0c 0%, var(--bg) 100%);
+    transition:background .2s ease, border-color .2s ease;
+  }
+  :root[data-theme="light"] .store-hero{
+    background:
+      radial-gradient(ellipse 50% 90% at 100% 0%, rgba(184,136,42,0.12), transparent 60%),
+      linear-gradient(180deg, #ede7dc 0%, var(--bg) 100%);
   }
   .hero-grid{
     max-width:1280px; margin:0 auto;
@@ -851,17 +1009,42 @@
   .store-toolbar-right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; justify-content:flex-end;}
   .store-sort{
     height:38px;
-    background:transparent;
+    background:var(--surface-2);
     border:1px solid var(--border);
     border-radius:20px;
     color:var(--text-muted);
     font-size:12px;
     font-weight:600;
-    padding:0 14px;
+    padding:0 34px 0 14px;
     font-family:inherit;
     cursor:pointer;
+    appearance:none; -webkit-appearance:none; -moz-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c8171' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    background-size:13px;
+    transition:border-color .15s ease, color .15s ease, background-color .15s ease;
   }
-  .store-sort:hover{border-color:var(--gold-dim); color:var(--text);}
+  .store-sort:hover{border-color:var(--gold-dim); color:var(--text); background-color:var(--surface-3);}
+  .store-sort:focus-visible{border-color:var(--gold-dim);}
+  .store-sort option{background:var(--surface); color:var(--text);}
+
+  /* ---------- Alternância de tema (claro / escuro) ---------- */
+  .theme-toggle{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .theme-toggle:hover{border-color:var(--gold-dim); color:var(--gold-light);}
+  .theme-toggle svg{width:16px; height:16px; stroke:currentColor;}
+  .topbar .theme-toggle{width:34px; height:34px;}
+  .topbar .theme-toggle svg{width:15px; height:15px;}
 
   .store-chip-tabs{display:flex; gap:7px; flex-wrap:wrap; flex:1; min-width:240px;}
   .store-chip{
@@ -919,6 +1102,16 @@
     overflow:hidden;
     border-radius:2px;
     background:var(--p-media, linear-gradient(165deg, #1c191b, #0d0c0d));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    transition:background .2s ease;
+  }
+  :root[data-theme="light"] .p-card-media{
+    background:var(--p-media, linear-gradient(165deg, #ddd6c8, #c8bfb0));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
   }
   .p-card-media::after{
     content:"";
@@ -935,11 +1128,17 @@
     letter-spacing:.02em;
     user-select:none;
   }
+  :root[data-theme="light"] .p-card-media .glyph{
+    color:rgba(100,85,60,0.18);
+  }
   .p-card.sold-out .p-card-media{filter:grayscale(.5);}
   .p-card.sold-out .p-card-media::before{
     content:"";
     position:absolute; inset:0;
     background:rgba(10,10,11,0.42);
+  }
+  :root[data-theme="light"] .p-card.sold-out .p-card-media::before{
+    background:rgba(247,243,237,0.42);
   }
   .p-card-tag{
     position:absolute; top:10px; left:10px;
@@ -947,9 +1146,19 @@
     padding:4px 10px; border-radius:20px;
     background:rgba(10,10,11,0.78); backdrop-filter:blur(3px);
     color:var(--gold-light); border:1px solid rgba(201,162,75,0.28);
+    transition:background .2s ease, color .2s ease;
+  }
+  :root[data-theme="light"] .p-card-tag{
+    background:rgba(28,23,16,0.72);
+    color:#e8c97a;
+    border-color:rgba(201,162,75,0.35);
   }
   .p-card-tag.out{
     color:var(--text-muted); border-color:var(--border); background:rgba(10,10,11,0.88);
+  }
+  :root[data-theme="light"] .p-card-tag.out{
+    background:rgba(28,23,16,0.72);
+    color:#c0b89e;
   }
   .p-card-body{padding:13px 1px 0 1px; display:flex; flex-direction:column; gap:7px; flex:1;}
   .p-card-cat{font-size:10.5px; color:var(--text-faint);}
@@ -1004,6 +1213,9 @@
     z-index:90; display:flex; justify-content:flex-end;
     animation:fadeIn .18s ease both;
   }
+  :root[data-theme="light"] .cart-overlay{
+    background:rgba(20,14,5,0.40);
+  }
   .cart-drawer{
     width:100%; max-width:400px; height:100%;
     background:var(--bg-soft);
@@ -1027,10 +1239,17 @@
     background:var(--p-media, linear-gradient(165deg, #1c191b, #0d0c0d));
     display:flex; align-items:center; justify-content:center;
     position:relative; overflow:hidden; border-radius:2px;
+    transition:background .2s ease;
+  }
+  :root[data-theme="light"] .cd-thumb{
+    background:var(--p-media, linear-gradient(165deg, #ddd6c8, #c8bfb0));
   }
   .cd-thumb .glyph{
     font-family:var(--font-display); font-style:italic; font-size:19px;
     color:rgba(243,238,226,0.16);
+  }
+  :root[data-theme="light"] .cd-thumb .glyph{
+    color:rgba(100,85,60,0.22);
   }
   .cd-info{flex:1; min-width:0;}
   .cd-info .n{font-family:var(--font-display); font-size:13.5px; margin-bottom:3px;}
@@ -1125,6 +1344,7 @@
         </div>
       </div>
       <div class="topbar-right">
+        <button class="theme-toggle" id="btnThemeAdmin" aria-label="Alternar tema claro/escuro" type="button"></button>
         <span class="today-chip" id="todayChip"></span>
       </div>
     </header>
@@ -1167,7 +1387,9 @@ const ICON = {
   lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>',
   hanger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a1.8 1.8 0 1 1 1.8 1.8"/><path d="M12 5.8v2.4"/><path d="M12 8.2 3 14.5c-1 .7-.5 2.5.8 2.5h16.4c1.3 0 1.8-1.8.8-2.5L12 8.2Z"/><path d="M5 19.5h14"/></svg>',
   instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>',
-  whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 2C6.74 2 2.46 6.26 2.46 11.53c0 1.86.52 3.6 1.42 5.08L2 22l5.55-1.85a9.5 9.5 0 0 0 4.46 1.13h.01c5.27 0 9.55-4.26 9.55-9.53C21.57 6.47 17.28 2 12.01 2Zm5.6 13.6c-.24.67-1.4 1.28-1.93 1.35-.5.07-1.1.1-1.78-.11-.41-.13-.94-.3-1.62-.6-2.85-1.23-4.7-4.1-4.84-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.65.5.24.55.81 1.92.88 2.06.07.14.11.3.02.49-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.73 1.2 1.57 1.95 1.08.96 1.99 1.26 2.27 1.4.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.37-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.68-.17 1.33Z"/></svg>'
+  whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 2C6.74 2 2.46 6.26 2.46 11.53c0 1.86.52 3.6 1.42 5.08L2 22l5.55-1.85a9.5 9.5 0 0 0 4.46 1.13h.01c5.27 0 9.55-4.26 9.55-9.53C21.57 6.47 17.28 2 12.01 2Zm5.6 13.6c-.24.67-1.4 1.28-1.93 1.35-.5.07-1.1.1-1.78-.11-.41-.13-.94-.3-1.62-.6-2.85-1.23-4.7-4.1-4.84-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.65.5.24.55.81 1.92.88 2.06.07.14.11.3.02.49-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.73 1.2 1.57 1.95 1.08.96 1.99 1.26 2.27 1.4.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.18-.28.37-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.68-.17 1.33Z"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.7A8.5 8.5 0 1 1 9.3 3.5a7 7 0 0 0 11.2 11.2Z"/></svg>'
 };
 
 /* ============================================================
@@ -1175,7 +1397,7 @@ const ICON = {
    ============================================================ */
 const STORAGE_KEYS = {
   products:'smc_products', sales:'smc_sales', settings:'smc_settings', seeded:'smc_seeded_v1',
-  customers:'smc_customers', cart:'smc_cart',
+  customers:'smc_customers', cart:'smc_cart', condicionais:'smc_condicionais',
   /* ── BACKUP ── timestamp ISO do último backup gerado */
   backup:'smc_last_backup'
 };
@@ -1317,15 +1539,43 @@ function uid(prefix){
   return (prefix||'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 }
 
-const _remoteIds = { products: new Set(), sales: new Set(), customers: new Set() };
+/* ============================================================
+   TEMA (claro / escuro) — o escuro é sempre o padrão
+   ============================================================ */
+const THEME_KEY = 'smc_theme';
+function getTheme(){
+  return localStorage.getItem(THEME_KEY)==='light' ? 'light' : 'dark';
+}
+function applyTheme(theme){
+  if(theme==='light') document.documentElement.setAttribute('data-theme','light');
+  else document.documentElement.removeAttribute('data-theme');
+  localStorage.setItem(THEME_KEY, theme);
+  updateThemeToggleButtons();
+}
+function toggleTheme(){
+  applyTheme(getTheme()==='light' ? 'dark' : 'light');
+}
+function updateThemeToggleButtons(){
+  const theme = getTheme();
+  const icon = theme==='light' ? ICON.moon : ICON.sun;
+  const title = theme==='light' ? 'Mudar para tema escuro' : 'Mudar para tema claro';
+  ['btnThemeAdmin','btnThemeStore'].forEach(id=>{
+    const btn = document.getElementById(id);
+    if(btn){ btn.innerHTML = icon; btn.title = title; }
+  });
+}
+
+const _remoteIds = { products: new Set(), sales: new Set(), customers: new Set(), condicionais: new Set() };
 
 function toProductRow(p){
   return { id:p.id, nome:p.nome, categoria:p.categoria||'', sku:p.sku||'', cor:p.cor||'',
-    sizes:p.sizes||[], preco:p.preco, custo:(p.custo===undefined?null:p.custo), estoque:p.estoque };
+    sizes:p.sizes||[], preco:p.preco, custo:(p.custo===undefined?null:p.custo), estoque:p.estoque,
+    foto_url: p.fotoUrl||null };
 }
 function fromProductRow(r){
   return { id:r.id, nome:r.nome, categoria:r.categoria, sku:r.sku, cor:r.cor,
-    sizes:r.sizes||[], preco:Number(r.preco), custo:(r.custo===null||r.custo===undefined?null:Number(r.custo)), estoque:Number(r.estoque) };
+    sizes:r.sizes||[], preco:Number(r.preco), custo:(r.custo===null||r.custo===undefined?null:Number(r.custo)), estoque:Number(r.estoque),
+    fotoUrl: r.foto_url||'' };
 }
 function toSaleRow(s){
   return { id:s.id, cliente:s.cliente, telefone:s.telefone||'', date:s.date, tipo:s.tipo,
@@ -1334,6 +1584,14 @@ function toSaleRow(s){
 function fromSaleRow(r){
   return { id:r.id, cliente:r.cliente, telefone:r.telefone, date:r.date, tipo:r.tipo,
     itens:r.itens||[], total:Number(r.total), status:r.status, parcelas:r.parcelas||[] };
+}
+function toCondicionalRow(c){
+  return { id:c.id, cliente:c.cliente, telefone:c.telefone||'', itens:c.itens||[],
+    saida:c.saida, prazo:c.prazo, status:c.status, observacao:c.observacao||'' };
+}
+function fromCondicionalRow(r){
+  return { id:r.id, cliente:r.cliente, telefone:r.telefone||'', itens:r.itens||[],
+    saida:r.saida, prazo:r.prazo, status:r.status, observacao:r.observacao||'' };
 }
 function toCustomerRow(c){
   return { id:c.id, nome:c.nome, email:c.email, telefone:c.telefone||'' };
@@ -1438,6 +1696,37 @@ const db = {
         toast('Sem permissão para registrar vendas. Faça login na gestão.', 'danger');
       } else {
         toast('Venda salva localmente. Sincronização pendente.', 'info');
+      }
+    }
+  },
+  async getCondicionais(){
+    try{
+      const {data, error} = await sb.from('conditionals').select('*').order('prazo', {ascending:true});
+      if(error) throw error;
+      const list = (data||[]).map(fromCondicionalRow);
+      _remoteIds.condicionais = new Set(list.map(x=>x.id));
+      write(STORAGE_KEYS.condicionais, list);
+      return list;
+    }catch(e){
+      supabaseOnline = false;
+      if(e.code==='42501'||e.message?.includes('permission')||e.message?.includes('policy')){
+        console.warn('[DB] sem permissão para ler condicionais (RLS ativo).', e.message||e);
+      } else {
+        console.warn('[DB] condicionais: usando cache local.', e.message||e);
+      }
+      return read(STORAGE_KEYS.condicionais, []);
+    }
+  },
+  async saveCondicionais(list){
+    write(STORAGE_KEYS.condicionais, list);
+    try{
+      await syncList('conditionals', list, 'condicionais', toCondicionalRow);
+    }catch(e){
+      console.warn('[DB] falha ao salvar condicionais.', e.message||e);
+      if(e.code==='42501'||e.message?.includes('permission')||e.message?.includes('policy')){
+        toast('Sem permissão para editar condicionais. Faça login na gestão.', 'danger');
+      } else {
+        toast('Condicional salva localmente. Sincronização pendente.', 'info');
       }
     }
   },
@@ -1678,24 +1967,26 @@ const state = {
   settings: defaultSettings(),
   customers: [],
   cart: [],
+  condicionais: [],
   currentCustomer: null,
   ui:{
     produtosSearch:'', produtosCategoria:'todas',
     vendasFiltro:'todas', vendasBusca:'',
-    condicionaisAviso: true,
+    condicionaisFiltro:'todas', condicionaisBusca:'',
     lojaBusca:'', lojaCategoria:'todas', lojaOrdenacao:'relevancia',
     cartSizeSel:{}
   }
 };
 
 async function loadState(){
-  const [products, sales, settings, customers] = await Promise.all([
-    db.getProducts(), db.getSales(), db.getSettings(), db.getCustomers()
+  const [products, sales, settings, customers, condicionais] = await Promise.all([
+    db.getProducts(), db.getSales(), db.getSettings(), db.getCustomers(), db.getCondicionais()
   ]);
   state.products = products;
   state.sales = sales;
   state.settings = settings;
   state.customers = customers;
+  state.condicionais = condicionais;
   state.cart = read(STORAGE_KEYS.cart, []) || [];
 
   if(state.products.length===0 && state.sales.length===0 && !read(STORAGE_KEYS.seeded,false)){
@@ -1713,6 +2004,7 @@ function persistProducts(){ return db.saveProducts(state.products); }
 function persistSales(){ return db.saveSales(state.sales); }
 function persistSettings(){ return db.saveSettings(state.settings); }
 function persistCustomers(){ return db.saveCustomers(state.customers); }
+function persistCondicionais(){ return db.saveCondicionais(state.condicionais); }
 function persistCart(){ write(STORAGE_KEYS.cart, state.cart); }
 
 /* ============================================================
@@ -1784,6 +2076,8 @@ document.getElementById('hamburger').addEventListener('click', ()=>{
 });
 document.getElementById('btnVoltarLoja').addEventListener('click', showLoja);
 document.getElementById('btnLogoutAdmin').addEventListener('click', logoutAdmin);
+document.getElementById('btnThemeAdmin').addEventListener('click', toggleTheme);
+updateThemeToggleButtons();
 
 /* ============================================================
    TOASTS
@@ -1931,6 +2225,7 @@ async function exportBackup({isAuto=false}={}){
     products: state.products,
     sales: state.sales,
     settings: state.settings,
+    condicionais: state.condicionais,
     exportedAt: new Date().toISOString(),
     auto: isAuto
   };
@@ -2023,6 +2318,7 @@ const CATEGORY_TINT = {
   'Cosméticos': '#231619, #0d0c0d'
 };
 function productMediaStyle(p){
+  if(p.fotoUrl) return `--p-media:url("${p.fotoUrl}") center/cover no-repeat;`;
   const tint = CATEGORY_TINT[p.categoria] || '#1c191b, #0d0c0d';
   return `--p-media:linear-gradient(165deg, ${tint});`;
 }
@@ -2039,7 +2335,7 @@ function renderProductCard(p){
     <div class="p-card ${soldOut?'sold-out':''}">
       <div class="p-card-media" style="${productMediaStyle(p)}">
         ${soldOut?`<span class="p-card-tag out">Esgotado</span>`:(lowStock?`<span class="p-card-tag">Últimas peças</span>`:'')}
-        <span class="glyph">${productGlyph(p.nome)}</span>
+        ${p.fotoUrl ? '' : `<span class="glyph">${productGlyph(p.nome)}</span>`}
       </div>
       <div class="p-card-body">
         <span class="p-card-cat">${escapeHtml(p.categoria)}</span>
@@ -2149,6 +2445,7 @@ function renderStore(){
             <button class="btn btn-gold btn-sm" id="btnGoAdmin">${ICON.dashboard} Painel</button>` : `
             <button class="btn btn-line btn-sm" id="btnLoginCustomer">Entrar</button>
             <button class="btn btn-ghost btn-sm" id="btnCreateAccount">${ICON.user} Criar conta</button>`}
+          <button class="theme-toggle" id="btnThemeStore" aria-label="Alternar tema claro/escuro" type="button">${getTheme()==='light' ? ICON.moon : ICON.sun}</button>
           <a class="cart-btn" href="${instagramUrl()}" target="_blank" rel="noopener" aria-label="Abrir Instagram da loja" title="Siga no Instagram">${ICON.instagram}</a>
           <button class="cart-btn" id="btnOpenCart" aria-label="Abrir sacola">
             ${ICON.bag}
@@ -2207,6 +2504,8 @@ function bindStore(){
   if(loginBtn) loginBtn.addEventListener('click', openLoginCustomerModal);
   const createBtn = document.getElementById('btnCreateAccount');
   if(createBtn) createBtn.addEventListener('click', openCreateAccountModal);
+  const btnThemeStore = document.getElementById('btnThemeStore');
+  if(btnThemeStore) btnThemeStore.addEventListener('click', toggleTheme);
   const chip = document.getElementById('accountChip');
   if(chip) chip.addEventListener('click', ()=>{
     if(state.currentCustomer){
@@ -2275,9 +2574,12 @@ function openCart(){
           ${state.cart.length ? state.cart.map((it,idx)=>{
             const prod = state.products.find(x=>x.id===it.productId);
             const tint = prod ? productMediaStyle(prod) : '--p-media:linear-gradient(165deg, #1c191b, #0d0c0d);';
+            const thumbContent = (prod && prod.fotoUrl)
+              ? `<img src="${prod.fotoUrl}" alt="${escapeHtml(it.nome)}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+              : `<span class="glyph">${productGlyph(it.nome)}</span>`;
             return `
             <div class="cd-item">
-              <div class="cd-thumb" style="${tint}"><span class="glyph">${productGlyph(it.nome)}</span></div>
+              <div class="cd-thumb" style="${tint}">${thumbContent}</div>
               <div class="cd-info">
                 <div class="n">${escapeHtml(it.nome)}</div>
                 <div class="m">Tam. ${escapeHtml(it.tamanho)}</div>
@@ -2794,14 +3096,60 @@ function bindProdutos(){
   }));
 }
 
+async function uploadFotoProduto(file, produtoId){
+  if(!sb) throw new Error('Supabase não configurado');
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = `${produtoId}.${ext}`;
+  // Remove foto antiga se existir
+  await sb.storage.from('produtos').remove([path]).catch(()=>{});
+  const { error } = await sb.storage.from('produtos').upload(path, file, {
+    upsert: true,
+    contentType: file.type
+  });
+  if(error) throw error;
+  const { data } = sb.storage.from('produtos').getPublicUrl(path);
+  return data.publicUrl;
+}
+
+async function removerFotoProduto(fotoUrl){
+  if(!sb || !fotoUrl) return;
+  try{
+    // Extrai o path do final da URL pública
+    const parts = fotoUrl.split('/produtos/');
+    if(parts[1]) await sb.storage.from('produtos').remove([parts[1]]);
+  }catch(e){ console.warn('[Storage] falha ao remover foto:', e); }
+}
+
 function openProdutoModal(produto){
   const editing = !!produto;
   const draft = produto ? {...produto, sizes:[...(produto.sizes||[])]} : {
-    id:null, nome:'', categoria:CATEGORIAS[0], sizes:[], cor:'', preco:'', custo:'', estoque:'', sku:''
+    id:null, nome:'', categoria:CATEGORIAS[0], sizes:[], cor:'', preco:'', custo:'', estoque:'', sku:'', fotoUrl:''
   };
+
+  // Estado local da foto no modal
+  let fotoState = { file: null, url: draft.fotoUrl || '', removida: false };
+
+  const fotoPreviewHtml = draft.fotoUrl
+    ? `<img src="${draft.fotoUrl}" alt="foto"><button class="foto-remove" id="fotoRemove" title="Remover foto">✕</button>`
+    : `<span id="fotoGlyph">${escapeHtml((draft.nome||'?').trim().charAt(0).toUpperCase()||'?')}</span>`;
 
   const bodyHtml = `
     <div class="form-grid">
+      <div class="field span2">
+        <label>Foto do produto</label>
+        <div class="foto-upload-area">
+          <div class="foto-preview" id="fotoPreview">${fotoPreviewHtml}</div>
+          <div class="foto-upload-actions">
+            <label class="foto-upload-label" id="fotoUploadLabel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Escolher foto
+              <input type="file" id="fotoInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+            </label>
+            <span class="foto-upload-hint">JPG, PNG ou WebP · máx. 5 MB<br>A foto será salva no Supabase Storage.</span>
+            <span class="foto-upload-status" id="fotoStatus"></span>
+          </div>
+        </div>
+      </div>
       <div class="field span2">
         <label for="fNome">Nome do produto</label>
         <input type="text" id="fNome" value="${escapeHtml(draft.nome)}" placeholder="Ex: Vestido Midi Essência">
@@ -2851,8 +3199,55 @@ function openProdutoModal(produto){
 
   openModal({
     title: editing ? 'Editar produto' : 'Novo produto',
-    bodyHtml, footHtml,
+    bodyHtml, footHtml, wide: true,
     onMount:(root)=>{
+      // ── Foto: escolher arquivo
+      const fotoInput = root.querySelector('#fotoInput');
+      const fotoPreview = root.querySelector('#fotoPreview');
+      const fotoStatus = root.querySelector('#fotoStatus');
+
+      function atualizarPreview(){
+        if(fotoState.url){
+          fotoPreview.innerHTML = `<img src="${fotoState.url}" alt="foto"><button class="foto-remove" id="fotoRemove" title="Remover foto">✕</button>`;
+          root.querySelector('#fotoRemove').addEventListener('click', removerFoto);
+        } else {
+          const inicial = root.querySelector('#fNome').value.trim().charAt(0).toUpperCase() || '?';
+          fotoPreview.innerHTML = `<span>${escapeHtml(inicial)}</span>`;
+        }
+      }
+
+      function removerFoto(){
+        fotoState = { file: null, url: '', removida: true };
+        fotoStatus.textContent = '';
+        fotoStatus.className = 'foto-upload-status';
+        atualizarPreview();
+      }
+
+      if(root.querySelector('#fotoRemove')){
+        root.querySelector('#fotoRemove').addEventListener('click', removerFoto);
+      }
+
+      fotoInput.addEventListener('change', ()=>{
+        const file = fotoInput.files[0];
+        if(!file) return;
+        if(file.size > 5 * 1024 * 1024){
+          toast('A foto deve ter no máximo 5 MB.', 'danger');
+          return;
+        }
+        fotoState.file = file;
+        fotoState.removida = false;
+        // Preview local imediato
+        const reader = new FileReader();
+        reader.onload = (e)=>{
+          fotoState.url = e.target.result;
+          atualizarPreview();
+          fotoStatus.textContent = `${file.name} selecionada — será enviada ao salvar`;
+          fotoStatus.className = 'foto-upload-status';
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // ── Tamanhos
       const picker = root.querySelector('#sizePicker');
       picker.querySelectorAll('.size-opt').forEach(opt=>{
         opt.addEventListener('click', ()=>{
@@ -2888,9 +3283,9 @@ function openProdutoModal(produto){
       root.querySelector('#pCancel').addEventListener('click', closeModal);
       const pSaveBtn = root.querySelector('#pSave');
       const pSaveOriginal = pSaveBtn.innerHTML;
-      const setProdLoading = (on)=>{
+      const setProdLoading = (on, msg)=>{
         pSaveBtn.disabled = on;
-        pSaveBtn.innerHTML = on ? 'Salvando…' : pSaveOriginal;
+        pSaveBtn.innerHTML = on ? (msg||'Salvando…') : pSaveOriginal;
       };
 
       root.querySelector('#pSave').addEventListener('click', async ()=>{
@@ -2902,8 +3297,35 @@ function openProdutoModal(produto){
         if(isNaN(preco) || preco<0){ toast('Informe um preço válido.', 'danger'); return; }
         if(isNaN(estoque) || estoque<0){ toast('Informe uma quantidade de estoque válida.', 'danger'); return; }
 
+        const prodId = draft.id || uid('p');
+        let fotoUrl = draft.fotoUrl || '';
+
+        setProdLoading(true, 'Salvando…');
+
+        // Upload da foto se houver arquivo novo
+        if(fotoState.file){
+          try{
+            fotoStatus.textContent = 'Enviando foto…';
+            fotoStatus.className = 'foto-upload-status uploading';
+            setProdLoading(true, 'Enviando foto…');
+            fotoUrl = await uploadFotoProduto(fotoState.file, prodId);
+            fotoStatus.textContent = 'Foto enviada!';
+            fotoStatus.className = 'foto-upload-status done';
+          }catch(err){
+            fotoStatus.textContent = 'Erro ao enviar foto: ' + (err.message||err);
+            fotoStatus.className = 'foto-upload-status error';
+            setProdLoading(false);
+            toast('Erro ao enviar a foto. Verifique o bucket no Supabase.', 'danger');
+            return;
+          }
+        } else if(fotoState.removida){
+          // Remover foto do storage
+          await removerFotoProduto(draft.fotoUrl);
+          fotoUrl = '';
+        }
+
         const payload = {
-          id: draft.id || uid('p'),
+          id: prodId,
           nome,
           categoria: root.querySelector('#fCategoria').value,
           sku: root.querySelector('#fSku').value.trim(),
@@ -2911,10 +3333,9 @@ function openProdutoModal(produto){
           sizes: draft.sizes,
           preco,
           custo: root.querySelector('#fCusto').value ? parseFloat(root.querySelector('#fCusto').value) : null,
-          estoque
+          estoque,
+          fotoUrl
         };
-
-        setProdLoading(true);
 
         if(editing){
           const idx = state.products.findIndex(x=>x.id===draft.id);
@@ -3285,86 +3706,319 @@ function openVendaDetalhe(sale){
 /* ============================================================
    CONDICIONAIS
    ============================================================ */
-const CONDICIONAIS_EXEMPLO = [
-  {cliente:'Larissa Fontoura', pecas:'2 peças (Vestido Midi, Blusa Cetim)', saida:'06/10/2026', prazo:'09/10/2026', status:'em_aberto'},
-  {cliente:'Débora Martins', pecas:'1 peça (Blazer Alfaiataria)', saida:'04/10/2026', prazo:'07/10/2026', status:'atrasado'},
-  {cliente:'Ana Beatriz Rocha', pecas:'3 peças (Saia, Sandália, Bolsa)', saida:'02/10/2026', prazo:'05/10/2026', status:'devolvido'}
-];
+
+/* Status "efetivo" para exibição: se ainda em aberto mas o prazo já
+   passou, mostra como atrasado sem precisar de um job separado. */
+function condicionalStatusEfetivo(c){
+  if(c.status==='em_aberto' && c.prazo && c.prazo < todayISO()) return 'atrasado';
+  return c.status;
+}
+function condicionalStatusTag(s){
+  if(s==='em_aberto') return `<span class="tag tag-gold">Em aberto</span>`;
+  if(s==='atrasado') return `<span class="tag tag-danger">Atrasado</span>`;
+  if(s==='vendido') return `<span class="tag tag-success">Vendido</span>`;
+  return `<span class="tag tag-muted">Devolvido</span>`;
+}
+function condicionalPecasLabel(c){
+  const qtdTotal = (c.itens||[]).reduce((n,i)=>n+i.qtd,0);
+  const nomes = (c.itens||[]).map(i=>i.nome).join(', ');
+  return `${qtdTotal} peça${qtdTotal===1?'':'s'}${nomes?` (${nomes})`:''}`;
+}
 
 function viewCondicionais(){
+  const { condicionaisFiltro, condicionaisBusca } = state.ui;
+  let list = state.condicionais.slice();
+  if(condicionaisFiltro!=='todas'){
+    list = list.filter(c=>condicionalStatusEfetivo(c)===condicionaisFiltro);
+  }
+  if(condicionaisBusca.trim()){
+    const q = condicionaisBusca.trim().toLowerCase();
+    list = list.filter(c=>c.cliente.toLowerCase().includes(q));
+  }
+  list.sort((a,b)=> (a.prazo||'').localeCompare(b.prazo||''));
+
+  function chip(val,label){
+    return `<button class="chip-tab ${condicionaisFiltro===val?'active':''}" data-cfiltro="${val}">${label}</button>`;
+  }
+
   return `
     <div class="section-head">
       <div>
-        <h2>Condicionais <span class="badge-soon">Em breve</span></h2>
-        <p>Controle de peças enviadas para avaliação da cliente</p>
+        <h2>Condicionais</h2>
+        <p>${list.length} condicional${list.length===1?'':'is'} · controle de peças enviadas para avaliação da cliente</p>
       </div>
       <button class="btn btn-gold" id="btnNovaCondicional">${ICON.plus} Nova condicional</button>
     </div>
 
-    <div class="banner">
-      ${ICON.info}
-      <div>
-        <div class="bt">Módulo ainda não conectado a um banco de dados</div>
-        <div class="bs">Esta tela mostra como a gestão de condicionais vai funcionar. As ações abaixo são apenas ilustrativas — em breve este módulo será integrado ao Supabase para salvar e sincronizar os dados de verdade.</div>
+    <div class="toolbar">
+      <div class="chip-tabs">
+        ${chip('todas','Todas')}${chip('em_aberto','Em aberto')}${chip('atrasado','Atrasadas')}${chip('devolvido','Devolvidas')}${chip('vendido','Vendidas')}
+      </div>
+      <div class="search-box" style="max-width:260px;">
+        ${ICON.search}
+        <input type="text" id="condicionaisBuscaInput" placeholder="Buscar cliente..." value="${escapeHtml(condicionaisBusca)}">
       </div>
     </div>
 
+    ${list.length ? `
     <div class="table-wrap">
       <table>
         <thead>
           <tr><th>Cliente</th><th>Peças</th><th>Saída</th><th>Prazo de devolução</th><th>Status</th><th></th></tr>
         </thead>
         <tbody>
-          ${CONDICIONAIS_EXEMPLO.map(c=>`
+          ${list.map(c=>`
             <tr>
               <td style="font-weight:700;">${escapeHtml(c.cliente)}</td>
-              <td>${escapeHtml(c.pecas)}</td>
-              <td>${escapeHtml(c.saida)}</td>
-              <td>${escapeHtml(c.prazo)}</td>
-              <td>${condicionalStatusTag(c.status)}</td>
+              <td>${escapeHtml(condicionalPecasLabel(c))}</td>
+              <td>${dateBR(c.saida)}</td>
+              <td>${dateBR(c.prazo)}</td>
+              <td>${condicionalStatusTag(condicionalStatusEfetivo(c))}</td>
               <td>
                 <div class="row-actions">
-                  <button class="icon-btn" data-exemplo-view aria-label="Ver detalhes">${ICON.eye}</button>
+                  <button class="icon-btn" data-cview="${c.id}" aria-label="Ver detalhes">${ICON.eye}</button>
+                  <button class="icon-btn danger" data-cdel="${c.id}" aria-label="Excluir">${ICON.trash}</button>
                 </div>
               </td>
             </tr>`).join('')}
         </tbody>
       </table>
-    </div>
-    <p style="font-size:11px; color:var(--text-faint); margin-top:10px;">* Dados de exemplo, apenas para ilustrar como a tela ficará quando estiver conectada.</p>
+    </div>` : emptyState('Nenhuma condicional encontrada', 'Registre uma nova condicional ou ajuste os filtros acima.', ICON.condicionais)}
   `;
 }
-function condicionalStatusTag(s){
-  if(s==='em_aberto') return `<span class="tag tag-gold">Em aberto</span>`;
-  if(s==='atrasado') return `<span class="tag tag-danger">Atrasado</span>`;
-  return `<span class="tag tag-success">Devolvido</span>`;
-}
+
 function bindCondicionais(){
-  document.getElementById('btnNovaCondicional').addEventListener('click', ()=>{
-    openModal({
-      title:'Nova condicional',
-      bodyHtml:`
-        <div class="form-grid">
-          <div class="field span2"><label>Nome da cliente</label><input type="text" placeholder="Ex: Larissa Fontoura" disabled></div>
-          <div class="field span2"><label>Peças</label><textarea placeholder="Descreva as peças enviadas..." disabled></textarea></div>
-          <div class="field"><label>Data de saída</label><input type="date" disabled></div>
-          <div class="field"><label>Prazo de devolução</label><input type="date" disabled></div>
-        </div>
-        <p style="font-size:12px; color:var(--text-faint); margin-top:14px;">Este formulário é um protótipo visual. O salvamento será habilitado quando o módulo for conectado ao Supabase.</p>
-      `,
-      footHtml:`<button class="btn btn-line" id="ncCancel">Fechar</button><button class="btn btn-gold" id="ncSave">Salvar</button>`,
-      onMount:(root)=>{
-        root.querySelector('#ncCancel').addEventListener('click', closeModal);
-        root.querySelector('#ncSave').addEventListener('click', ()=>{
-          closeModal();
-          toast('Em breve: este módulo será conectado ao Supabase.', 'info');
-        });
-      }
-    });
-  });
-  document.querySelectorAll('[data-exemplo-view]').forEach(b=>b.addEventListener('click', ()=>{
-    toast('Exemplo ilustrativo — sem dados reais ainda.', 'info');
+  document.getElementById('btnNovaCondicional').addEventListener('click', openCondicionalModal);
+  document.querySelectorAll('[data-cfiltro]').forEach(b=>b.addEventListener('click', ()=>{
+    state.ui.condicionaisFiltro = b.dataset.cfiltro; render();
   }));
+  const buscaInput = document.getElementById('condicionaisBuscaInput');
+  buscaInput.addEventListener('input', ()=>{
+    state.ui.condicionaisBusca = buscaInput.value; render();
+    const el = document.getElementById('condicionaisBuscaInput');
+    el.focus(); el.setSelectionRange(el.value.length, el.value.length);
+  });
+  document.querySelectorAll('[data-cview]').forEach(b=>b.addEventListener('click', ()=>{
+    openCondicionalDetalhe(state.condicionais.find(c=>c.id===b.dataset.cview));
+  }));
+  document.querySelectorAll('[data-cdel]').forEach(b=>b.addEventListener('click', ()=>{
+    const c = state.condicionais.find(x=>x.id===b.dataset.cdel);
+    const aindaAberta = condicionalStatusEfetivo(c)==='em_aberto' || condicionalStatusEfetivo(c)==='atrasado';
+    confirmModal(`Excluir a condicional de <strong>${escapeHtml(c.cliente)}</strong>?${aindaAberta ? ' As peças ainda em aberto terão o estoque devolvido.' : ''}`, async ()=>{
+      if(aindaAberta){
+        (c.itens||[]).forEach(it=>{
+          const prod = state.products.find(p=>p.id===it.productId);
+          if(prod) prod.estoque += it.qtd;
+        });
+        await persistProducts();
+      }
+      state.condicionais = state.condicionais.filter(x=>x.id!==c.id);
+      await persistCondicionais();
+      toast('Condicional excluída.', 'success');
+      render();
+    });
+  }));
+}
+
+function openCondicionalModal(){
+  const itens = [];
+  const hoje = todayISO();
+  const prazoPadrao = (function(){ const d=new Date(); d.setDate(d.getDate()+3); return d.toISOString().slice(0,10); })();
+
+  const bodyHtml = `
+    <div class="form-grid">
+      <div class="field span2">
+        <label for="ncCliente">Nome da cliente</label>
+        <input type="text" id="ncCliente" placeholder="Ex: Larissa Fontoura">
+      </div>
+      <div class="field span2">
+        <label for="ncTelefone">Telefone / WhatsApp <span class="hint">opcional</span></label>
+        <input type="tel" id="ncTelefone" placeholder="(45) 99999-9999">
+      </div>
+    </div>
+
+    <div style="margin-top:18px;">
+      <label style="font-size:11.5px; color:var(--text-muted); font-weight:700;">Peças enviadas</label>
+      <div class="form-grid" style="margin-top:8px;">
+        <div class="field span2">
+          <select id="ncProduto">
+            <option value="">Selecione um produto...</option>
+            ${state.products.filter(p=>p.estoque>0).map(p=>`<option value="${p.id}">${escapeHtml(p.nome)} (${p.estoque} un.)</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <select id="ncTamanho"><option value="">Tamanho</option></select>
+        </div>
+        <div class="field">
+          <input type="number" id="ncQtd" min="1" value="1" placeholder="Qtd.">
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="ncAddItem" style="margin-top:10px;">${ICON.plus} Adicionar peça</button>
+    </div>
+
+    <div class="cart-list" id="condItensList"><div style="font-size:12px; color:var(--text-faint);">Nenhuma peça adicionada ainda.</div></div>
+
+    <div class="form-grid" style="margin-top:18px;">
+      <div class="field">
+        <label for="ncSaida">Data de saída</label>
+        <input type="date" id="ncSaida" value="${hoje}">
+      </div>
+      <div class="field">
+        <label for="ncPrazo">Prazo de devolução</label>
+        <input type="date" id="ncPrazo" value="${prazoPadrao}">
+      </div>
+      <div class="field span2">
+        <label for="ncObs">Observação <span class="hint">opcional</span></label>
+        <input type="text" id="ncObs" placeholder="Ex: avisar por WhatsApp um dia antes">
+      </div>
+    </div>
+  `;
+  const footHtml = `<button class="btn btn-line" id="ncCancel">Cancelar</button><button class="btn btn-gold" id="ncSave">Salvar condicional</button>`;
+
+  openModal({
+    title:'Nova condicional', wide:true, bodyHtml, footHtml,
+    onMount:(root)=>{
+      const produtoSelect = root.querySelector('#ncProduto');
+      const tamanhoSelect = root.querySelector('#ncTamanho');
+
+      produtoSelect.addEventListener('change', ()=>{
+        const prod = state.products.find(p=>p.id===produtoSelect.value);
+        tamanhoSelect.innerHTML = '<option value="">Tamanho</option>' +
+          (prod ? (prod.sizes||[]).map(s=>`<option value="${s}">${s}</option>`).join('') : '');
+      });
+
+      function renderItens(){
+        const listEl = root.querySelector('#condItensList');
+        if(!itens.length){
+          listEl.innerHTML = '<div style="font-size:12px; color:var(--text-faint);">Nenhuma peça adicionada ainda.</div>';
+        }else{
+          listEl.innerHTML = itens.map((it,idx)=>`
+            <div class="cart-item">
+              <div>
+                <div class="ci-name">${escapeHtml(it.nome)}</div>
+                <div class="ci-meta">Tam. ${escapeHtml(it.tamanho)} · ${it.qtd}x</div>
+              </div>
+              <button type="button" class="icon-btn danger" data-rm="${idx}" style="width:26px;height:26px;">${ICON.close}</button>
+            </div>`).join('');
+          listEl.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click', ()=>{
+            itens.splice(parseInt(b.dataset.rm,10),1); renderItens();
+          }));
+        }
+      }
+
+      root.querySelector('#ncAddItem').addEventListener('click', ()=>{
+        const prod = state.products.find(p=>p.id===produtoSelect.value);
+        const tamanho = tamanhoSelect.value;
+        const qtd = parseInt(root.querySelector('#ncQtd').value,10) || 1;
+        if(!prod){ toast('Selecione um produto.', 'danger'); return; }
+        if(prod.sizes && prod.sizes.length && !tamanho){ toast('Selecione o tamanho.', 'danger'); return; }
+        if(qtd<1){ toast('Quantidade inválida.', 'danger'); return; }
+        if(qtd>prod.estoque){ toast(`Estoque insuficiente (disponível: ${prod.estoque}).`, 'danger'); return; }
+
+        itens.push({productId:prod.id, nome:prod.nome, tamanho:tamanho||'Único', qtd});
+        renderItens();
+        produtoSelect.value=''; tamanhoSelect.innerHTML='<option value="">Tamanho</option>'; root.querySelector('#ncQtd').value=1;
+      });
+
+      root.querySelector('#ncCancel').addEventListener('click', closeModal);
+      const saveBtn = root.querySelector('#ncSave');
+      const saveBtnOriginal = saveBtn.innerHTML;
+      const setLoading = (on)=>{ saveBtn.disabled = on; saveBtn.innerHTML = on ? 'Salvando...' : saveBtnOriginal; };
+
+      saveBtn.addEventListener('click', async ()=>{
+        const cliente = root.querySelector('#ncCliente').value.trim();
+        const saida = root.querySelector('#ncSaida').value;
+        const prazo = root.querySelector('#ncPrazo').value;
+        if(!cliente){ toast('Informe o nome da cliente.', 'danger'); return; }
+        if(!itens.length){ toast('Adicione ao menos uma peça.', 'danger'); return; }
+        if(!saida || !prazo){ toast('Informe as datas de saída e prazo.', 'danger'); return; }
+        if(prazo < saida){ toast('O prazo não pode ser antes da data de saída.', 'danger'); return; }
+
+        setLoading(true);
+        const telefone = root.querySelector('#ncTelefone').value.trim();
+        const observacao = root.querySelector('#ncObs').value.trim();
+
+        // Deduz estoque: a peça sai fisicamente da loja enquanto a condicional está aberta.
+        itens.forEach(it=>{
+          const prod = state.products.find(p=>p.id===it.productId);
+          if(prod) prod.estoque = Math.max(0, prod.estoque - it.qtd);
+        });
+
+        const condicional = {
+          id: uid('cond'), cliente, telefone, itens, saida, prazo,
+          status:'em_aberto', observacao
+        };
+        state.condicionais.push(condicional);
+
+        await Promise.all([persistCondicionais(), persistProducts()]);
+        setLoading(false);
+        closeModal();
+        toast('Condicional registrada.', 'success');
+        render();
+      });
+    }
+  });
+}
+
+function openCondicionalDetalhe(c){
+  if(!c) return;
+  const efetivo = condicionalStatusEfetivo(c);
+  const emAberto = efetivo==='em_aberto' || efetivo==='atrasado';
+
+  const bodyHtml = `
+    <div class="form-grid">
+      <div class="field"><label>Cliente</label><input type="text" value="${escapeHtml(c.cliente)}" disabled></div>
+      <div class="field"><label>Telefone</label><input type="text" value="${escapeHtml(c.telefone||'—')}" disabled></div>
+      <div class="field"><label>Saída</label><input type="text" value="${dateBR(c.saida)}" disabled></div>
+      <div class="field"><label>Prazo de devolução</label><input type="text" value="${dateBR(c.prazo)}" disabled></div>
+    </div>
+    <div style="margin-top:14px;">
+      <label style="font-size:11.5px; color:var(--text-muted); font-weight:700;">Peças</label>
+      <div class="cart-list" style="margin-top:8px;">
+        ${(c.itens||[]).map(it=>`
+          <div class="cart-item">
+            <div>
+              <div class="ci-name">${escapeHtml(it.nome)}</div>
+              <div class="ci-meta">Tam. ${escapeHtml(it.tamanho)} · ${it.qtd}x</div>
+            </div>
+          </div>`).join('') || '<div style="font-size:12px; color:var(--text-faint);">Nenhuma peça registrada.</div>'}
+      </div>
+    </div>
+    ${c.observacao ? `<p style="font-size:12.5px; color:var(--text-muted); margin-top:14px;"><b>Observação:</b> ${escapeHtml(c.observacao)}</p>` : ''}
+    <p style="font-size:12.5px; margin-top:14px;"><b>Status atual:</b> ${condicionalStatusTag(efetivo)}</p>
+  `;
+  const footHtml = emAberto ? `
+    <button class="btn btn-line" id="cdClose">Fechar</button>
+    <button class="btn btn-ghost" id="cdVendido">Marcar como vendida</button>
+    <button class="btn btn-gold" id="cdDevolvido">Marcar como devolvida</button>
+  ` : `<button class="btn btn-line" id="cdClose">Fechar</button>`;
+
+  openModal({
+    title:'Detalhes da condicional', bodyHtml, footHtml,
+    onMount:(root)=>{
+      root.querySelector('#cdClose').addEventListener('click', closeModal);
+      const btnDevolvido = root.querySelector('#cdDevolvido');
+      if(btnDevolvido) btnDevolvido.addEventListener('click', async ()=>{
+        (c.itens||[]).forEach(it=>{
+          const prod = state.products.find(p=>p.id===it.productId);
+          if(prod) prod.estoque += it.qtd;
+        });
+        c.status = 'devolvido';
+        await Promise.all([persistCondicionais(), persistProducts()]);
+        closeModal();
+        toast('Condicional marcada como devolvida. Estoque atualizado.', 'success');
+        render();
+      });
+      const btnVendido = root.querySelector('#cdVendido');
+      if(btnVendido) btnVendido.addEventListener('click', async ()=>{
+        c.status = 'vendido';
+        await persistCondicionais();
+        closeModal();
+        toast('Condicional marcada como vendida. Registre a venda em Vendas, se ainda não feito.', 'success');
+        render();
+      });
+    }
+  });
 }
 
 /* ============================================================
@@ -3533,8 +4187,9 @@ function bindConfig(){
         confirmModal('Importar este backup vai substituir os produtos, vendas e configurações atuais. Deseja continuar?', ()=>{
           if(Array.isArray(data.products)) state.products = data.products;
           if(Array.isArray(data.sales)) state.sales = data.sales;
+          if(Array.isArray(data.condicionais)) state.condicionais = data.condicionais;
           if(data.settings) state.settings = {...defaultSettings(), ...data.settings, supabaseUrl:SUPABASE_URL, supabaseKey:SUPABASE_ANON_KEY};
-          persistProducts(); persistSales(); persistSettings();
+          persistProducts(); persistSales(); persistCondicionais(); persistSettings();
           toast('Backup importado com sucesso.', 'success');
           render();
         });
@@ -3552,9 +4207,11 @@ function bindConfig(){
       try{
         await db.saveProducts([]);
         await db.saveSales([]);
+        await db.saveCondicionais([]);
       }catch(e){ /* já tratado internamente */ }
       localStorage.removeItem(STORAGE_KEYS.products);
       localStorage.removeItem(STORAGE_KEYS.sales);
+      localStorage.removeItem(STORAGE_KEYS.condicionais);
       localStorage.removeItem(STORAGE_KEYS.settings);
       localStorage.removeItem(STORAGE_KEYS.seeded);
       await seedIfEmpty();
