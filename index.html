@@ -24,10 +24,10 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Silvana Moda &amp; Cosméticos">
 <meta property="og:locale"      content="pt_BR">
-<meta property="og:url"         content="https://SEU_USUARIO.github.io/SEU_REPO/">
+<meta property="og:url"         content="https://carlohippler.github.io/SilvanaModa/">
 <meta property="og:title"       content="Silvana Moda &amp; Cosméticos — Moda com brilho e atitude">
 <meta property="og:description" content="Vestidos, blusas, calças, acessórios e cosméticos selecionados com cuidado. Peças pensadas para quem gosta de se sentir única — do dia a dia às ocasiões especiais.">
-<meta property="og:image"       content="https://SEU_USUARIO.github.io/SEU_REPO/og-image.svg">
+<meta property="og:image"       content="https://carlohippler.github.io/SilvanaModa/og-image.png">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt"   content="Banner da loja Silvana Moda &amp; Cosméticos — paleta preto e dourado">
@@ -35,7 +35,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="Silvana Moda &amp; Cosméticos">
 <meta name="twitter:description" content="Peças selecionadas com cuidado — moda com brilho e atitude.">
-<meta name="twitter:image"       content="https://SEU_USUARIO.github.io/SEU_REPO/og-image.svg">
+<meta name="twitter:image"       content="https://carlohippler.github.io/SilvanaModa/og-image.png">
 <meta name="twitter:image:alt"   content="Banner Silvana Moda &amp; Cosméticos">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4306,6 +4306,43 @@ function bindProdutos(){
   }));
 }
 
+/* Reduz a foto no navegador antes de enviar: lado maior = 1000 px, formato
+   WebP (ou JPEG se o navegador não suportar). Uma foto de celular de 4 MB
+   costuma ficar com 80–200 KB. Se algo falhar, devolve o arquivo original. */
+async function comprimirImagem(file, maxLado = 1000, qualidade = 0.82){
+  try{
+    if(!file.type.startsWith('image/')) return file;
+    const url = URL.createObjectURL(file);
+    const img = await new Promise((res, rej)=>{
+      const i = new Image();
+      i.onload = ()=>res(i); i.onerror = rej; i.src = url;
+    });
+    URL.revokeObjectURL(url);
+    const escala = Math.min(1, maxLado / Math.max(img.naturalWidth, img.naturalHeight));
+    const w = Math.round(img.naturalWidth * escala);
+    const h = Math.round(img.naturalHeight * escala);
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    const toBlob = (tipo)=>new Promise(r=>canvas.toBlob(r, tipo, qualidade));
+    let blob = await toBlob('image/webp');
+    let ext = 'webp';
+    if(!blob || blob.type !== 'image/webp'){
+      // fundo branco para JPEG (não tem transparência)
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+      blob = await toBlob('image/jpeg'); ext = 'jpg';
+    }
+    if(!blob || blob.size >= file.size) return file; // já era menor
+    const base = (file.name || 'foto').replace(/\.[^.]+$/, '');
+    return new File([blob], `${base}.${ext}`, { type: blob.type });
+  }catch(e){
+    console.warn('[Foto] compressão falhou, enviando original.', e);
+    return file;
+  }
+}
+
 async function uploadFotoProduto(file, produtoId){
   if(!sb) throw new Error('Supabase não configurado');
   const ext = file.name.split('.').pop().toLowerCase();
@@ -4362,8 +4399,9 @@ function openProdutoModal(produto){
     });
     const fInput = container.querySelector('#fotosInput');
     if(fInput) fInput.addEventListener('change', ()=>{
-      [...fInput.files].forEach(file=>{
-        if(file.size > 5*1024*1024){ toast('Foto muito grande (máx. 5 MB).', 'danger'); return; }
+      [...fInput.files].forEach(async (original)=>{
+        if(original.size > 25*1024*1024){ toast('Foto muito grande (máx. 25 MB).', 'danger'); return; }
+        const file = await comprimirImagem(original);
         const reader = new FileReader();
         reader.onload = (ev)=>{
           fotosState.push({url:ev.target.result, file, isNew:true});
@@ -4371,13 +4409,14 @@ function openProdutoModal(produto){
         };
         reader.readAsDataURL(file);
       });
+      fInput.value = '';
     });
   }
 
   const bodyHtml = `
     <div class="form-grid">
       <div class="field span2">
-        <label>Fotos do produto <span class="hint">Primeira foto é a capa · máx. 5 MB por imagem</span></label>
+        <label>Fotos do produto <span class="hint">Primeira foto é a capa · reduzidas automaticamente</span></label>
         <div class="fotos-grid" id="fotosGrid"></div>
         <span class="foto-upload-status" id="fotoStatus"></span>
       </div>
